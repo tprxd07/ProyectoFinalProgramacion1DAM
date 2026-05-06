@@ -1,9 +1,9 @@
-package org.example.proyectofinalprogramacion1dam;
+package org.example.proyectofinalprogramacion1dam.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class LoginController {
     @FXML
     private Label welcomeText;
 

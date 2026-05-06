@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection>
+    <server>localhost</server>
+    <port>3333</port>
+    <database>playstore</database>
+    <user>root</user>
+    <password>weakmiscojones777</password>
+</connection>
