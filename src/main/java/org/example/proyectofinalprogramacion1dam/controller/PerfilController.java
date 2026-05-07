@@ -3,7 +3,7 @@ package org.example.proyectofinalprogramacion1dam.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class LoginController {
+public class PerfilController {
     @FXML
     private Label welcomeText;
 
@@ -11,5 +11,4 @@ public class LoginController {
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
-
 }

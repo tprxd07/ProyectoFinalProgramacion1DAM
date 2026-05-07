@@ -9,4 +9,6 @@ module org.example.proyectofinalprogramacion1dam {
     exports org.example.proyectofinalprogramacion1dam;
     exports org.example.proyectofinalprogramacion1dam.controller;
     opens org.example.proyectofinalprogramacion1dam.controller to javafx.fxml;
+    exports org.example.proyectofinalprogramacion1dam.view;
+    opens org.example.proyectofinalprogramacion1dam.view to javafx.fxml;
 }

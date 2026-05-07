@@ -82,7 +82,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.proyectofinalprogramacion1dam/org.example.proyectofinalprogramacion1dam.HelloApplication
+                                org.example.proyectofinalprogramacion1dam/org.example.proyectofinalprogramacion1dam.view.LoginView
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

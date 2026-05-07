@@ -1,4 +1,4 @@
-package org.example.proyectofinalprogramacion1dam;
+package org.example.proyectofinalprogramacion1dam.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class LoginView extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("PaginaPrincipal.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LoginView.class.getResource("PaginaPrincipal.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
