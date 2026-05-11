@@ -12,7 +12,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/org/example/proyectofinalprogramacion1dam/view/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 600);
-        stage.setTitle("Crank V0.1");
+        stage.setTitle("Crank V0.2");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
