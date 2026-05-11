@@ -1,15 +1,28 @@
 package org.example.proyectofinalprogramacion1dam.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
 
 public class LoginController {
     @FXML
-    private Label welcomeText;
+    private AnchorPane contenedorSesion;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private void mostrarLogin() {
+        SceneManager.inyectarEscena(contenedorSesion, "LoginInfo.fxml");
     }
 
+    @FXML
+    private void mostrarSignUp() {
+        SceneManager.inyectarEscena(contenedorSesion, "SignUp.fxml");
+    }
+
+    @FXML
+    public void initialize(){
+        mostrarLogin();
+    }
 }

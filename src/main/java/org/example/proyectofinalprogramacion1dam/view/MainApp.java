@@ -7,13 +7,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginView extends Application {
+public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(LoginView.class.getResource("PaginaPrincipal.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/org/example/proyectofinalprogramacion1dam/view/Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
+        stage.setTitle("Crank V0.1");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
+
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/heMadeAStatement.jpeg" />
+         </image>
+      </ImageView>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ignite your system in one turn" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Text>
+      <HBox alignment="CENTER" prefHeight="6.0" prefWidth="400.0" spacing="80.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="#666464" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Tienes cuenta?" />
+                  <Button mnemonicParsing="false" onAction="#mostrarLogin" text="Iniciar sesión" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="#666464" strokeType="OUTSIDE" strokeWidth="0.0" text="¿No tienes cuenta?" />
+                  <Button mnemonicParsing="false" onAction="#mostrarSignUp" text="Crear cuenta" />
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <AnchorPane fx:id="contenedorSesion" prefHeight="200.0" prefWidth="400.0" />
+      <Text fx:id="TextoSesion" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Confirmar">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></Button>
+      <Separator prefHeight="34.0" prefWidth="400.0" />
+      <Label text="¿Está teniendo problemas? Si es así, contactenos en nuestra" />
+      <Hyperlink text="Web de Soporte" />
+   </children>
+</VBox>
