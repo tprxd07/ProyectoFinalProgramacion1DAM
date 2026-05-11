@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" spacing="5.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" spacing="5.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.SignUpController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -19,7 +17,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Text>
-            <TextField alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TextField fx:id="textoEmail" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
@@ -36,7 +34,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Text>
-            <TextField alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TextField fx:id="textoUsuario" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
@@ -53,7 +51,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Text>
-            <TextField alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TextField fx:id="textoPassword" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
@@ -70,7 +68,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Text>
-            <TextField alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TextField fx:id="textoConfirmarPassword" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>

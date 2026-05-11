@@ -45,7 +45,7 @@
          </VBox.margin>
       </HBox>
       <AnchorPane fx:id="contenedorSesion" prefHeight="200.0" prefWidth="400.0" />
-      <Text fx:id="TextoSesion" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="textoSesion" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Confirmar">
          <VBox.margin>
             <Insets top="10.0" />
