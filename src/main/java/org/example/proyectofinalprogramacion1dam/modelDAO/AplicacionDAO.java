@@ -13,12 +13,14 @@ import java.util.List;
 public class AplicacionDAO {
     private final static String SQL_ALL = "SELECT * FROM aplicacion";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM aplicacion WHERE id = ?";
+    private final static String SQL_FIND_BY_NAME = "SELECT * FROM aplicacion WHERE nombre = ?";
     private final static String SQL_INSERT = "INSERT INTO aplicacion (nombre, descripcion, precio, version, descargas, categoria, id_desarrollador) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private final static String SQL_UPDATE = "UPDATE aplicacion SET nombre = ?, descripcion = ?, precio = ?, version = ?, descargas = ?, categoria = ?, id_desarrollador = ? WHERE id = ?";
     private final static String SQL_DELETE = "DELETE FROM aplicacion WHERE id = ?";
 
     /**
-     * Obtiene todas las aplicaciones cumpliendo con el requisito de CRUD completo[cite: 55, 140].
+     * Busca todas las aplicaciones en la base de datos
+     * @return Lista de las aplicaciones
      */
     public static List<Aplicacion> findAll() {
         List<Aplicacion> aplicaciones = new ArrayList<>();
@@ -42,7 +44,9 @@ public class AplicacionDAO {
     }
 
     /**
-     * Busca una aplicación por ID. Útil para el control de integridad y persistencia[cite: 141, 142].
+     * Busca una app por su id
+     * @param id id de la app
+     * @return al app con ese id
      */
     public static Aplicacion findById(int id) {
         Aplicacion app = null;
@@ -74,7 +78,7 @@ public class AplicacionDAO {
      */
     public static List<Aplicacion> findByNombre(String nombre) {
         List<Aplicacion> aplicaciones = new ArrayList<>();
-        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NOMBRE)) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_NAME)) {
             ps.setString(1, "%" + nombre + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -135,7 +139,9 @@ public class AplicacionDAO {
     }
 
     /**
-     * Elimina una aplicación de la base de datos[cite: 106].
+     * Elimina una app de la base de datos
+     * @param id id de la app
+     * @return app eliminada
      */
     public static boolean deleteAplicacion(int id) {
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {

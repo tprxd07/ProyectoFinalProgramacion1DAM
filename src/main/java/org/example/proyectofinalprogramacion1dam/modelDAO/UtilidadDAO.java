@@ -20,7 +20,6 @@ public class UtilidadDAO {
         List<Utilidad> utilidades = new ArrayList<>();
         try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_JOIN)) {
             while (rs.next()) {
-                // Creamos objetos Utilidad usando los datos heredados
                 utilidades.add(new Utilidad(
                         rs.getInt("id"),
                         rs.getString("nombre"),
