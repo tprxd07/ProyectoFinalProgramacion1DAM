@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginInfoController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -14,7 +21,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <TextField fx:id="textoCorreoLogin" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+            <TextField fx:id="textoCorreoLogin" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
@@ -24,7 +31,24 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <TextField fx:id="textoContraseniaLogin" alignment="CENTER_RIGHT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="textoContraseniaLogin" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" visible="false" />
+                  <PasswordField fx:id="textoContraseniaPrivado" maxWidth="20.0" minWidth="200.0" prefWidth="200.0" />
+                  <ToggleButton fx:id="botonOjo" mnemonicParsing="false" onAction="#togglePassword" prefHeight="26.0" prefWidth="34.0" style="-fx-background-color: transparent;" StackPane.alignment="CENTER_RIGHT">
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                     <graphic>
+                        <ImageView fx:id="imagenOjo" fitHeight="24.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/hide.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+               </children>
+            </StackPane>
          </children>
       </HBox>
    </children>

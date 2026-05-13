@@ -2,7 +2,7 @@
 <connection>
     <server>localhost</server>
     <port>3333</port>
-    <database>playstore</database>
+    <dataBase>playstore</dataBase>
     <user>root</user>
-    <password>weakmiscojones777</password>
+    <password>1234</password>
 </connection>

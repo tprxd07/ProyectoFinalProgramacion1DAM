@@ -5,9 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.example.proyectofinalprogramacion1dam.model.Usuario;
 import org.example.proyectofinalprogramacion1dam.modelDAO.UsuarioDAO;
 import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
@@ -19,25 +21,33 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     @FXML
     private AnchorPane contenedorSesion;
-    private TextField textoCorreoLogin;
-    private TextField textoContraseniaLogin;
     @FXML
     private Text textoSesion;
+    @FXML
+    private Button botonConfirmar;
+    private Object controladorActivo;
+    private boolean modoLogin = true;
 
     @FXML
     private void mostrarLogin() {
-        SceneManager.inyectarEscena(contenedorSesion, "LoginInfo.fxml");
+        modoLogin=true;
+        controladorActivo=SceneManager.inyectarEscena(contenedorSesion, "LoginInfo.fxml");
+        botonConfirmar.setText("Confirmar");
     }
 
     @FXML
     private void mostrarSignUp() {
-        SceneManager.inyectarEscena(contenedorSesion, "SignUp.fxml");
+        modoLogin=false;
+        controladorActivo=SceneManager.inyectarEscena(contenedorSesion, "SignUp.fxml");
+        botonConfirmar.setText("Crear cuenta");
     }
 
     @FXML
     private void iniciarSesion() {
-        String email = textoCorreoLogin.getText();
-        String pass = textoContraseniaLogin.getText();
+        LoginInfoController datos = (LoginInfoController) controladorActivo;
+
+        String email = datos.getEmail();
+        String pass = datos.getPassword();
 
         if (email.isEmpty() || pass.isEmpty()) {
             textoSesion.setText("Rellena los campos");
@@ -55,9 +65,60 @@ public class LoginController implements Initializable {
             } else {
                 Sesion.setUsuarioActual(userLogueado);
                 Scene escenaActual = textoSesion.getScene();
+                Stage ventana=(Stage) escenaActual.getWindow();
+                ventana.setResizable(true);
+                ventana.setMinHeight(600);
+                ventana.setMinHeight(400);
                 textoSesion.setText("Bienvenido, " + userLogueado.getNombreUsuario());
-                SceneManager.cambiarEscena(escenaActual,"org/example/proyectofinalprogramacion1dam/view/TiendaPrincipal.fxml");
+                SceneManager.cambiarEscena(escenaActual, "TiendaPrincipal.fxml");
             }
+        }
+    }
+
+    private void registrarUsuario() {
+        SignUpController datos = (SignUpController) controladorActivo;
+
+        String user = datos.getUsuario();
+        String email = datos.getEmail();
+        String pass = datos.getPassword();
+        String confirm = datos.getConfirmarPassword();
+
+        if (user.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+            textoSesion.setText("Rellena todos los campos");
+            return;
+        }
+
+        if (!pass.equals(confirm)) {
+            textoSesion.setText("Las contraseñas no coinciden");
+            return;
+        }
+
+        if (UsuarioDAO.findByEmail(email) != null) {
+            textoSesion.setText("Este correo ya tiene una cuenta asignada");
+            return;
+        }
+
+        if (UsuarioDAO.findByUsername(user) != null) {
+            textoSesion.setText("Ya existe este nombre de usuario");
+            return;
+        }
+
+        Usuario nuevoUsuario = new Usuario(user, email, pass);
+
+        if (UsuarioDAO.addUsuario(nuevoUsuario)) {
+            Sesion.setMensajeInfo("Bienvenido, " + nuevoUsuario.getNombreUsuario());
+            mostrarLogin();
+        } else {
+            textoSesion.setText("Error al conectar con la base de datos");
+        }
+    }
+
+    @FXML
+    private void confirmar(){
+        if (modoLogin==true){
+            iniciarSesion();
+        }else{
+            registrarUsuario();
         }
     }
 

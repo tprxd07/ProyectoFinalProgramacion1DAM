@@ -25,4 +25,7 @@ public class ConnectionProperties implements Serializable {
     public String getUser(){return user;}
     public String getPassword(){return password;}
     public String getURL(){ return "jdbc:mysql://"+server+":"+port+"/"+dataBase;}
+
+
+
 }

@@ -31,7 +31,7 @@ public class SceneManager {
      * @param contenedor El panel donde queremos meter el diseño.
      * @param fxmlFileName Solo el nombre del archivo ("Login.fxml").
      */
-    public static void inyectarEscena(Pane contenedor, String fxmlFileName) {
+    public static Object inyectarEscena(Pane contenedor, String fxmlFileName) {
         try {
             String ruta = "/org/example/proyectofinalprogramacion1dam/view/" + fxmlFileName;
 
@@ -58,6 +58,7 @@ public class SceneManager {
             else if (contenedor instanceof HBox) {
                 HBox.setHgrow(nuevoNodo, Priority.ALWAYS);
             }
+            return loader.getController();
 
         } catch (IOException e) {
             System.err.println("Error: No se pudo cargar el archivo FXML en " + fxmlFileName);
@@ -65,5 +66,6 @@ public class SceneManager {
         } catch (NullPointerException e) {
             System.err.println("Error: No se encontró el archivo. Revisa la ruta: " + fxmlFileName);
         }
+        return null;
     }
 }

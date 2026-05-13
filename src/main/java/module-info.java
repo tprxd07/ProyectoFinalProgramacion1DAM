@@ -4,7 +4,7 @@ module org.example.proyectofinalprogramacion1dam {
     requires java.sql;
     requires java.xml.bind;
 
-
+    opens org.example.proyectofinalprogramacion1dam.dataAccess to java.xml.bind;
     opens org.example.proyectofinalprogramacion1dam to javafx.fxml;
     exports org.example.proyectofinalprogramacion1dam;
     exports org.example.proyectofinalprogramacion1dam.controller;

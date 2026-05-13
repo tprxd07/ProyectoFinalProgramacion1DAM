@@ -16,6 +16,7 @@ public class UsuarioDAO {
     private final static String SQL_FIND_BY_USERNAME = "SELECT * FROM usuario WHERE nombreUsuario = ?";
     private final static String SQL_LOGIN = "SELECT * FROM usuario WHERE email = ? AND contrasenia = ?";
     private final static String SQL_INSERT = "INSERT INTO usuario (nombreUsuario, email, contrasenia) VALUES (?, ?, ?)";
+    private final static String SQL_DELETE ="DELETE usuario FROM usuario WHERE id = ?";
 
     /**
      * Devuelve una lista con todos los usuarios de la base de datos.
@@ -49,7 +50,7 @@ public class UsuarioDAO {
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_FIND_BY_ID)) {
             ps.setInt(1, idUsuario);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 usuario = new Usuario(
                         rs.getInt("id"),
                         rs.getString("nombreUsuario"),
@@ -162,6 +163,18 @@ public class UsuarioDAO {
             }
         }
         return added;
+    }
+    public static boolean deleteUser(int id){
+        if (findById(id) != null){
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)){
+                ps.setInt(1,id);
+                ps.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
     }
 }
 
