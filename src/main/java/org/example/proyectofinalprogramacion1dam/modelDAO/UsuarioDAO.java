@@ -16,7 +16,8 @@ public class UsuarioDAO {
     private final static String SQL_FIND_BY_USERNAME = "SELECT * FROM usuario WHERE nombreUsuario = ?";
     private final static String SQL_LOGIN = "SELECT * FROM usuario WHERE email = ? AND contrasenia = ?";
     private final static String SQL_INSERT = "INSERT INTO usuario (nombreUsuario, email, contrasenia) VALUES (?, ?, ?)";
-    private final static String SQL_DELETE ="DELETE usuario FROM usuario WHERE id = ?";
+    private final static String SQL_UPDATE = "UPDATE usuario SET nombreUsuario = ?, email = ?, contrasenia = ?, saldo = ? WHERE id = ?";
+    private final static String SQL_DELETE ="DELETE FROM usuario WHERE id = ?";
 
     /**
      * Devuelve una lista con todos los usuarios de la base de datos.
@@ -42,7 +43,7 @@ public class UsuarioDAO {
 
     /**
      * Busca un usuario por su ID.
-     * @param idUsuario
+     * @param idUsuario Id dek usuario
      * @return El objeto Usuario o null si no existe.
      */
     public static Usuario findById(int idUsuario) {
@@ -67,7 +68,7 @@ public class UsuarioDAO {
 
     /**
      * Busca un usuario por su Email
-     * @param email
+     * @param email correo electronico del usuario
      * @return El objeto Usuario o null si no existe.
      */
     public static Usuario findByEmail(String email) {
@@ -118,8 +119,8 @@ public class UsuarioDAO {
 
     /**
      * Metodo para validar el login.
-     * @param email
-     * @param pass
+     * @param email correo electronico
+     * @param pass contraseña
      * @return El objeto Usuario si las credenciales son correctas, null si no.
      */
     public static Usuario login(String email, String pass) {
@@ -142,6 +143,29 @@ public class UsuarioDAO {
         }
         return usuario;
     }
+    /**
+     * Actualiza los datos de un usuario existente.
+     * Permite cambiar nombreUsuario, email, contrasenia o saldo.
+     * @param user Objeto usuario con los datos actualizados.
+     * @return true si la actualización fue exitosa.
+     */
+    public static boolean updateUsuario(Usuario user) {
+        if (user == null || findById(user.getId()) == null) {
+            return false;
+        }
+
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
+            ps.setString(1, user.getNombreUsuario());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getContrasenia());
+            ps.setDouble(4, user.getSaldo());
+            ps.setInt(5, user.getId());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Registra un nuevo usuario en la base de datos.
@@ -150,7 +174,6 @@ public class UsuarioDAO {
      */
     public static boolean addUsuario(Usuario user) {
         boolean added = false;
-        // Comprobamos que el usuario no sea nulo y que el email no esté ya registrado
         if (user != null && findByEmail(user.getEmail()) == null) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
                 ps.setString(1, user.getNombreUsuario());
@@ -164,6 +187,7 @@ public class UsuarioDAO {
         }
         return added;
     }
+
     public static boolean deleteUser(int id){
         if (findById(id) != null){
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)){
@@ -177,4 +201,3 @@ public class UsuarioDAO {
         return false;
     }
 }
-

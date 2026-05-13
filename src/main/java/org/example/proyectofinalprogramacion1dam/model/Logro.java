@@ -6,14 +6,16 @@ public class Logro {
     private String descripcion;
     private int idVideojuego;
 
-    public Logro() {}
-    public Logro(int id, String nombre, String descripcion, int idVideojuego) {
-        this.id = id;
+    public Logro(String nombre, String descripcion, int idVideojuego) {
+        if (idVideojuego <= 0) {
+            throw new IllegalArgumentException("Un logro debe estar asociado a un juego válido.");
+        }
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idVideojuego = idVideojuego;
     }
-    public Logro(String nombre, String descripcion, int idVideojuego) {
+    public Logro(int id, String nombre, String descripcion, int idVideojuego) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idVideojuego = idVideojuego;
