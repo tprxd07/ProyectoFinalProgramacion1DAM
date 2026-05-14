@@ -14,11 +14,9 @@ import java.util.List;
 
 public class LogroDAO {
     private final static String SQL_ALL = "SELECT * FROM logro";
-    private final static String SQL_FIND_BY_ID = "SELECT * FROM logro WHERE id = ?";
     private final static String SQL_FIND_BY_GAME = "SELECT * FROM logro WHERE idVideojuego = ?";
     private final static String SQL_INSERT = "INSERT INTO logro (nombre, descripcion, idVideojuego) VALUES (?, ?, ?)";
     private final static String SQL_DELETE = "DELETE FROM logro WHERE id = ?";
-
     private final static String SQL_INSERT_OBTENIDO = "INSERT INTO logro_obtenido (idUsuario, idLogro, fechaDesbloqueo) VALUES (?, ?, ?)";
     private final static String SQL_FIND_OBTENIDOS_BY_USER = "SELECT * FROM logro_obtenido WHERE idUsuario = ?";
 
@@ -73,12 +71,10 @@ public class LogroDAO {
      * @return logro añadido
      */
     public static boolean addLogro(Logro logro) {
-        // 1. Verificación de seguridad
         if (logro == null || logro.getIdVideojuego() <= 0) {
             return false;
         }
 
-        // 2. Opcional: Verificar que el juego existe realmente en la BD
         if (VideojuegoDAO.findById(logro.getIdVideojuego()) == null) {
             System.err.println("Error: El videojuego asociado no existe.");
             return false;
@@ -112,6 +108,8 @@ public class LogroDAO {
         }
     }
 
+
+
     /**
      * Obtiene el historial de logros de un usuario
      * @param idUsuario id del usaurio
@@ -133,5 +131,19 @@ public class LogroDAO {
             throw new RuntimeException(e);
         }
         return obtenidos;
+    }
+
+    /**
+     * Elimina un logro de la base de datos por su ID.
+     * @param id ID del logro a eliminar.
+     * @return true si se ha eliminado correctamente.
+     */
+    public static boolean deleteLogro(int id) {
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

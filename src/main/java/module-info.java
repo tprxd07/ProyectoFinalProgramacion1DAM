@@ -3,6 +3,8 @@ module org.example.proyectofinalprogramacion1dam {
     requires javafx.fxml;
     requires java.sql;
     requires java.xml.bind;
+    requires java.desktop;
+    requires javafx.media;
 
     opens org.example.proyectofinalprogramacion1dam.dataAccess to java.xml.bind;
     opens org.example.proyectofinalprogramacion1dam to javafx.fxml;

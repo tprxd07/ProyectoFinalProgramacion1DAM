@@ -14,7 +14,7 @@ import java.util.List;
 public class CompraDAO {
     private final static String SQL_INSERT = "INSERT INTO paga (idApp, idUsuario, precioPagado, fechaCompra) VALUES (?, ?, ?, ?)";
     private final static String SQL_FIND_BY_USER = "SELECT * FROM paga WHERE idUsuario = ?";
-    private final static String SQL_ALL = "SELECT * FROM paga";
+    private final static String SQL_FIND_ALL = "SELECT * FROM paga";
 
     /**
      * Registra una nueva compra en la tabla 'paga'.
@@ -29,7 +29,6 @@ public class CompraDAO {
             ps.setInt(2, hc.getIdUsuario());
             ps.setDouble(3, hc.getPrecioPagado());
 
-            // Gestionamos la fecha: si es null en el objeto, usamos la actual
             LocalDateTime fecha = (hc.getFechaCompra() != null) ? hc.getFechaCompra() : LocalDateTime.now();
             ps.setTimestamp(4, Timestamp.valueOf(fecha));
 
@@ -69,7 +68,7 @@ public class CompraDAO {
      */
     public static List<HistorialCompra> findAll() {
         List<HistorialCompra> lista = new ArrayList<>();
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL)) {
+        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_FIND_ALL)) {
             while (rs.next()) {
                 lista.add(new HistorialCompra(
                         rs.getInt("idApp"),

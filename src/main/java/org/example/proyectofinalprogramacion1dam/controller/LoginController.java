@@ -14,6 +14,7 @@ import org.example.proyectofinalprogramacion1dam.model.Usuario;
 import org.example.proyectofinalprogramacion1dam.modelDAO.UsuarioDAO;
 import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
 import org.example.proyectofinalprogramacion1dam.utils.Sesion;
+import org.example.proyectofinalprogramacion1dam.utils.Util;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -111,6 +112,11 @@ public class LoginController implements Initializable {
         } else {
             textoSesion.setText("Error al conectar con la base de datos");
         }
+    }
+
+    @FXML
+    private void soniditoGracioso(){
+        Util.reproducirSonido("nose-sound.mp3");
     }
 
     @FXML
