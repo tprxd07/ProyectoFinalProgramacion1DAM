@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginController">
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
@@ -30,7 +29,7 @@
             </Button>
          </children>
       </StackPane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ignite your system in one turn" textAlignment="CENTER">
+      <Text fill="#f1c40f" strokeType="OUTSIDE" strokeWidth="0.0" text="Ignite your system in one turn" textAlignment="CENTER">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
@@ -40,13 +39,13 @@
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Text fill="#666464" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Tienes cuenta?" />
-                  <Button mnemonicParsing="false" onAction="#mostrarLogin" text="Iniciar sesión" />
+                  <Button mnemonicParsing="false" onAction="#mostrarLogin" styleClass="boton-basico" text="Iniciar sesión" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Text fill="#666464" strokeType="OUTSIDE" strokeWidth="0.0" text="¿No tienes cuenta?" />
-                  <Button mnemonicParsing="false" onAction="#mostrarSignUp" text="Crear cuenta" />
+                  <Button mnemonicParsing="false" onAction="#mostrarSignUp" styleClass="boton-basico" text="Crear cuenta" />
                </children>
             </VBox>
          </children>
@@ -55,13 +54,13 @@
          </VBox.margin>
       </HBox>
       <AnchorPane fx:id="contenedorSesion" prefHeight="200.0" prefWidth="400.0" />
-      <Text fx:id="textoSesion" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button fx:id="botonConfirmar" mnemonicParsing="false" onAction="#confirmar" prefHeight="40.0" prefWidth="120.0" text="Confirmar">
+      <Text fx:id="textoSesion" fill="#ee1212" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="botonConfirmar" mnemonicParsing="false" onAction="#confirmar" prefHeight="40.0" prefWidth="120.0" styleClass="boton-basico" text="Confirmar">
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin></Button>
       <Separator prefHeight="34.0" prefWidth="400.0" />
-      <Label text="¿Está teniendo problemas? Si es así, contactenos en nuestra" />
+      <Text fill="#faf3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Está teniendo problemas? Si es así, contactenos en nuestra" />
       <Hyperlink text="Web de Soporte" />
    </children>
 </VBox>

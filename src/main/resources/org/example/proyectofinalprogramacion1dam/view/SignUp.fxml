@@ -7,16 +7,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" spacing="5.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.SignUpController">
+<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" spacing="5.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.SignUpController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electrónico:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electrónico:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" right="5.0" />
                </HBox.margin>
             </Text>
             <TextField fx:id="textoEmail" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
@@ -28,12 +28,12 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre usuario:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre usuario:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets right="5.0" />
                </HBox.margin>
             </Text>
             <TextField fx:id="textoUsuario" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
@@ -45,12 +45,12 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" right="5.0" />
                </HBox.margin>
             </Text>
             <TextField fx:id="textoPassword" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
@@ -62,12 +62,12 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Confirmar contraseña:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirmar contraseña:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" right="5.0" />
                </HBox.margin>
             </Text>
             <TextField fx:id="textoConfirmarPassword" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">

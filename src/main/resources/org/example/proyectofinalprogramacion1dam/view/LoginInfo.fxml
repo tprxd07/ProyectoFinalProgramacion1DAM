@@ -12,24 +12,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginInfoController">
+<VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="400.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.LoginInfoController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electrónico:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electrónico:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
             </Text>
             <TextField fx:id="textoCorreoLogin" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:" textAlignment="RIGHT">
+            <Text fill="#f3f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
             </Text>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>

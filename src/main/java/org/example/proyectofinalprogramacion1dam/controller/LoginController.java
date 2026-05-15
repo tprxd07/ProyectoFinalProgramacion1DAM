@@ -68,8 +68,10 @@ public class LoginController implements Initializable {
                 Scene escenaActual = textoSesion.getScene();
                 Stage ventana=(Stage) escenaActual.getWindow();
                 ventana.setResizable(true);
-                ventana.setMinHeight(600);
+                ventana.setMinWidth(600);
                 ventana.setMinHeight(400);
+                ventana.setWidth(600);
+                ventana.setHeight(400);
                 textoSesion.setText("Bienvenido, " + userLogueado.getNombreUsuario());
                 SceneManager.cambiarEscena(escenaActual, "TiendaPrincipal.fxml");
             }
@@ -117,6 +119,14 @@ public class LoginController implements Initializable {
     @FXML
     private void soniditoGracioso(){
         Util.reproducirSonido("nose-sound.mp3");
+        Scene escenaActual = textoSesion.getScene();
+        Stage ventana=(Stage) escenaActual.getWindow();
+        ventana.setResizable(true);
+        ventana.setMinWidth(600);
+        ventana.setMinHeight(400);
+        ventana.setWidth(600);
+        ventana.setHeight(400);
+        SceneManager.cambiarEscena(escenaActual, "TiendaPrincipal.fxml");
     }
 
     @FXML

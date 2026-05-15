@@ -1,39 +1,44 @@
 .root {
-    -fx-bg-dark: #121212;
-    -fx-bg-surface: #1e1e1e;
-    -fx-blitz-yellow: #f1c40f;
-    -fx-hextech-blue: #00d2ff;
-    -fx-text-main: #ffffff;
-    -fx-text-muted: #b3b3b3;
+     darkGrey: #333333;
+     mediumGrey: #424242;
+     hoverGrey: #2a2a2a;
+     lightGrey: #525252;
+     borderGrey: #101010;
+     yellow: #f1c40f;
+     blue: #00d2ff;
+     textWhite: #f3f3f3;
 }
 .main-container {
-    -fx-background-color: -fx-bg-dark;
+    -fx-background-color: darkGrey;
 }
 #sidebar {
-    -fx-background-color: -fx-bg-surface;
+    -fx-background-color: lightGrey;
     -fx-padding: 20 0 0 0;
 }
 .nav-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: -fx-text-muted;
-    -fx-font-size: 14px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10 20 10 20;
-    -fx-border-width: 0 0 0 0;
-    -fx-border-color: -fx-hextech-blue;
+        -fx-background-color: darkGrey;
+        -fx-text-fill: textWhite;
+        -fx-transition: 0.3s;
+        -fx-font-size: 14px;
+        -fx-alignment: CENTER;
+        -fx-padding: 0 0 0 0;
+        -fx-border-width: 1 1 1 1;
+        -fx-border-color: borderGrey;
 }
 .nav-button:hover {
-    -fx-text-fill: -fx-blitz-yellow;
-    -fx-background-color: #2a2a2a;
+    -fx-text-fill: yellow;
+    -fx-background-color: hoverGrey;
     -fx-cursor: hand;
+    -fx-border-color: blue;
 }
 .nav-button-active {
-    -fx-text-fill: -fx-blitz-yellow;
-    -fx-background-color: #2a2a2a;
-    -fx-border-width: 0 0 0 5;
-    -fx-border-color: -fx-hextech-blue;
+    -fx-text-fill: yellow;
+    -fx-background-color: hoverGrey;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-color: blue;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 210, 255, 0.4), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 210, 255, 0.7), 20, 0.3, 10, 0);
+    -fx-background-insets: 0;
 }
 .scroll-pane {
     -fx-background-color: transparent;
@@ -48,16 +53,31 @@
 .scroll-pane .scroll-bar:horizontal .track .scroll-pane .scroll-bar:horizontal .thumb {
     -fx-background-color: transparent;
 }
-.boton-menu {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: #b3b3b3;
-    -fx-font-size: 14px;
-
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0 0 0 20;
-
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #101010;
-
-    -fx-background-radius: 0;
+.boton-basico{
+    -fx-background-color: lightGrey;
+    -fx-border-width: 2;
+    -fx-border-color: borderGrey;
+    -fx-text-fill: textWhite;
+    -fx-background-insets: 0;
+}
+.boton-ajustes{
+    -fx-background-color: transparent;
+}
+.boton-ajustes > .arrow-button{
+    -fx-padding: 0;
+}
+.boton-ajustes > .arrow-button > .arrow{
+    -fx-shape: null;
+    -fx-padding: 0;
+}
+.menu-ajustes{
+    -fx-background-color: transparent;
+    -fx-text-fill: textWhite
+}
+.menu-ajustes:hover{
+    -fx-text-fill: yellow;
+}
+.text-field{
+    -fx-background-color: lightGrey;
+    -fx-text-fill: textWhite;
 }
