@@ -43,7 +43,7 @@ public class UsuarioDAO {
 
     /**
      * Busca un usuario por su ID.
-     * @param idUsuario Id dek usuario
+     * @param idUsuario Id del usuario
      * @return El objeto Usuario o null si no existe.
      */
     public static Usuario findById(int idUsuario) {

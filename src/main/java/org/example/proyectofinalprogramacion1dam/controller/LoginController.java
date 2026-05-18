@@ -119,6 +119,7 @@ public class LoginController implements Initializable {
     @FXML
     private void soniditoGracioso(){
         Util.reproducirSonido("nose-sound.mp3");
+        Sesion.setUsuarioActual(UsuarioDAO.findById(5));
         Scene escenaActual = textoSesion.getScene();
         Stage ventana=(Stage) escenaActual.getWindow();
         ventana.setResizable(true);

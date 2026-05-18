@@ -6,6 +6,7 @@
      borderGrey: #101010;
      yellow: #f1c40f;
      blue: #00d2ff;
+     greenbg: #51FF00;
      textWhite: #f3f3f3;
 }
 .main-container {
@@ -70,9 +71,14 @@
     -fx-shape: null;
     -fx-padding: 0;
 }
-.menu-ajustes{
+.texto{
     -fx-background-color: transparent;
     -fx-text-fill: textWhite
+}
+.texto-cursivo{
+    -fx-background-color: transparent;
+    -fx-text-fill: textWhite;
+    -fx-font-style: italic;
 }
 .menu-ajustes:hover{
     -fx-text-fill: yellow;
@@ -80,4 +86,30 @@
 .text-field{
     -fx-background-color: lightGrey;
     -fx-text-fill: textWhite;
+}
+.titulo{
+    -fx-background-color: transparent;
+    -fx-text-fill: textWhite;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+.label-precio{
+    -fx-background-color: darkGrey;
+    -fx-border-color: blue;
+    -fx-text-fill: textWhite;
+}
+.label-gratis{
+    -fx-background-color: greenbg;
+    -fx-border-color: blue;
+    -fx-text-fill: textWhite;
+    -fx-font-weight: bold;
+}
+.texto-saldo{
+    -fx-background-color: transparent;
+    -fx-text-fill: yellow;
+}
+.texto-saldo:hover{
+    -fx-background-color: transparent;
+    -fx-text-fill: blue;
+    -fx-underline: true
 }

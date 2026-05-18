@@ -28,7 +28,8 @@ public class UtilidadDAO {
                             base.getVersion(),
                             base.getDescargas(),
                             base.getCategoria(),
-                            base.getIdDesarrollador()
+                            base.getIdDesarrollador(),
+                            base.getImagen()
                     ));
                 }
             }
@@ -53,7 +54,8 @@ public class UtilidadDAO {
                         base.getVersion(),
                         base.getDescargas(),
                         base.getCategoria(),
-                        base.getIdDesarrollador()
+                        base.getIdDesarrollador(),
+                        base.getImagen()
                 );
             }
         } catch (SQLException e) {
@@ -63,8 +65,9 @@ public class UtilidadDAO {
     }
 
     public static boolean addUtilidad(Utilidad u) {
-        if (AplicacionDAO.addAplicacion(u)) {
-            int idAsignado = AplicacionDAO.findByNombre(u.getNombre()).get(0).getId();
+        int idAsignado = AplicacionDAO.addAplicacion(u);
+
+        if (idAsignado != -1) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT_SPECIFIC)) {
                 ps.setInt(1, idAsignado);
                 return ps.executeUpdate() > 0;

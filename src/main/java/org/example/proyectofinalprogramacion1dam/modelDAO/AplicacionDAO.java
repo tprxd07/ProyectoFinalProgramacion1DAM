@@ -14,8 +14,8 @@ public class AplicacionDAO {
     private final static String SQL_ALL = "SELECT * FROM aplicacion";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM aplicacion WHERE id = ?";
     private final static String SQL_FIND_BY_NAME = "SELECT * FROM aplicacion WHERE nombre = ?";
-    private final static String SQL_INSERT = "INSERT INTO aplicacion (nombre, descripcion, precio, version, descargas, categoria, id_desarrollador) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private final static String SQL_UPDATE = "UPDATE aplicacion SET nombre = ?, descripcion = ?, precio = ?, version = ?, descargas = ?, categoria = ?, id_desarrollador = ? WHERE id = ?";
+    private final static String SQL_INSERT = "INSERT INTO aplicacion (nombre, descripcion, precio, version, descargas, categoria, iddesarrollador, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final static String SQL_UPDATE = "UPDATE aplicacion SET nombre = ?, descripcion = ?, precio = ?, version = ?, descargas = ?, categoria = ?, iddesarrollador = ?, imagen = ? WHERE id = ?";
     private final static String SQL_DELETE = "DELETE FROM aplicacion WHERE id = ?";
 
     /**
@@ -34,7 +34,8 @@ public class AplicacionDAO {
                         rs.getString("version"),
                         rs.getInt("descargas"),
                         Categoria.valueOf(rs.getString("categoria")), // Asumiendo que es un Enum
-                        rs.getInt("id_desarrollador")
+                        rs.getInt("iddesarrollador"),
+                        rs.getString("imagen")
                 ));
             }
         } catch (SQLException e) {
@@ -62,7 +63,8 @@ public class AplicacionDAO {
                         rs.getString("version"),
                         rs.getInt("descargas"),
                         Categoria.valueOf(rs.getString("categoria")),
-                        rs.getInt("id_desarrollador")
+                        rs.getInt("iddesarrollador"),
+                        rs.getString("imagen")
                 );
             }
         } catch (SQLException e) {
@@ -90,7 +92,8 @@ public class AplicacionDAO {
                         rs.getString("version"),
                         rs.getInt("descargas"),
                         Categoria.valueOf(rs.getString("categoria")),
-                        rs.getInt("id_desarrollador")
+                        rs.getInt("iddesarrollador"),
+                        rs.getString("imagen")
                 ));
             }
         } catch (SQLException e) {
@@ -100,26 +103,39 @@ public class AplicacionDAO {
     }
 
     /**
-     * Inserta una nueva aplicación. Se encarga de la persistencia de datos avanzados[cite: 142, 170].
+     * Añade una app a la base de datos
+     * @param app Aplicacion que se ha creado
+     * @return Id de la aplicacion creada, -1 si no ha sido posible
      */
-    public static boolean addAplicacion(Aplicacion app) {
-        if (app == null) return false;
-        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
+    public static int addAplicacion(Aplicacion app) {
+        if (app == null) return -1;
+       //return_generates_keys devuelve el ID generado por la base de datos
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, app.getNombre());
             ps.setString(2, app.getDescripcion());
             ps.setDouble(3, app.getPrecio());
             ps.setString(4, app.getVersion());
             ps.setInt(5, app.getDescargas());
-            ps.setString(6, app.getCategoria().name()); // Guardamos el nombre del Enum
+            ps.setString(6, app.getCategoria().name());
             ps.setInt(7, app.getIdDesarrollador());
-            return ps.executeUpdate() > 0;
+            ps.setString(8, app.getImagen());
+
+            //Buscamos la ID si se inserta correctamente
+            if (ps.executeUpdate() > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) return rs.getInt(1);
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return -1; //Devolvemos -1 si algo falla
     }
 
     /**
-     * Actualiza los datos de la app. Cumple con el criterio de "Cómo funciona el actualizar"[cite: 106].
+     * Actualiza los datos de una aplicacion en la base de datos
+     * @param app Aplicacion que se va amodificar
+     * @return True si se ha podido modificar, false si no se ha podido/no se encuentra la app
      */
     public static boolean updateAplicacion(Aplicacion app) {
         if (app == null) return false;

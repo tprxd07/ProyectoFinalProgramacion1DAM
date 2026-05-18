@@ -38,6 +38,7 @@ public class VideojuegoDAO {
                             base.getDescargas(),
                             base.getCategoria(),
                             base.getIdDesarrollador(),
+                            base.getImagen(),
                             multi
                     ));
                 }
@@ -71,6 +72,7 @@ public class VideojuegoDAO {
                         base.getDescargas(),
                         base.getCategoria(),
                         base.getIdDesarrollador(),
+                        base.getImagen(),
                         rs.getBoolean("multijugador")
                 );
             }
@@ -86,9 +88,9 @@ public class VideojuegoDAO {
      * @return true si se puede añadir, false si no
      */
     public static boolean addVideojuego(Videojuego v) {
-        if (AplicacionDAO.addAplicacion(v)) {
-            int idAsignado = AplicacionDAO.findByNombre(v.getNombre()).get(0).getId();
+        int idAsignado = AplicacionDAO.addAplicacion(v);
 
+        if (idAsignado != -1) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT_SPECIFIC)) {
                 ps.setInt(1, idAsignado);
                 ps.setBoolean(2, v.isMultijugador());

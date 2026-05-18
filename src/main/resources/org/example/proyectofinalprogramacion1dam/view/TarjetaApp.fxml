@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="160.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.TarjetaAppController">
+   <children>
+      <ImageView fx:id="portada" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </ImageView>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="128.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label fx:id="titulo" styleClass="text-field" text="Label" HBox.hgrow="SOMETIMES" />
+            <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="precio" prefWidth="45.0" text="Label" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>

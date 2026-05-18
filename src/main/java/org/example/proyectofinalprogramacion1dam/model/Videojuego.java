@@ -2,14 +2,13 @@ package org.example.proyectofinalprogramacion1dam.model;
 
 public class Videojuego extends Aplicacion {
     private boolean multijugador;
-    public Videojuego() {
-    }
-    public Videojuego(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador, boolean multijugador) {
-        super(id, nombre, descripcion, precio, version, descargas, categoria, idDesarrollador);
+
+    public Videojuego(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
+        super(id, nombre, descripcion, precio, version, descargas, categoria, idDesarrollador, imagen);
         this.multijugador = multijugador;
     }
-    public Videojuego(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador, boolean multijugador) {
-        super(nombre, descripcion, precio, version, categoria, idDesarrollador);
+    public Videojuego(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
+        super(nombre, descripcion, precio, version, categoria, idDesarrollador, imagen);
         this.multijugador = multijugador;
     }
 

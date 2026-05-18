@@ -9,10 +9,9 @@ public class Aplicacion {
     private int descargas;
     private Categoria categoria;
     private int idDesarrollador;
+    private String imagen;
 
-    public Aplicacion(){}
-
-    public Aplicacion(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador) {
+    public Aplicacion(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -21,15 +20,17 @@ public class Aplicacion {
         this.descargas = descargas;
         this.categoria = categoria;
         this.idDesarrollador = idDesarrollador;
+        this.imagen = imagen;
     }
 
-    public Aplicacion(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador) {
+    public Aplicacion(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador, String imagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.version = version;
         this.categoria = categoria;
         this.idDesarrollador = idDesarrollador;
+        this.imagen = imagen;
     }
 
     public int getId() {
@@ -94,6 +95,14 @@ public class Aplicacion {
 
     public void setIdDesarrollador(int idDesarrollador) {
         this.idDesarrollador = idDesarrollador;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @Override
