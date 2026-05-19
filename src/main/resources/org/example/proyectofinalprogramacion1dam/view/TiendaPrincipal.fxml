@@ -10,6 +10,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -58,7 +59,7 @@
       </VBox>
       <VBox prefHeight="400.0" prefWidth="520.0" HBox.hgrow="ALWAYS">
          <children>
-            <HBox maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="60.0" prefWidth="466.0" VBox.vgrow="NEVER">
+            <HBox fx:id="menuArriba" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="60.0" prefWidth="466.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region prefHeight="100.0" prefWidth="67.0" HBox.hgrow="NEVER" />
                   <TextField fx:id="busqueda" maxWidth="1200.0" onAction="#generarTienda" prefHeight="26.0" prefWidth="214.0" HBox.hgrow="ALWAYS">
@@ -80,43 +81,51 @@
                      </items>
                   </MenuButton>
                   <Region prefHeight="80.0" prefWidth="67.0" HBox.hgrow="SOMETIMES" />
-                  <VBox fx:id="panelAjustes" maxWidth="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" visible="false" HBox.hgrow="NEVER">
+                  <AnchorPane prefHeight="60.0" prefWidth="60.0" HBox.hgrow="NEVER">
                      <children>
-                        <Button mnemonicParsing="false" text="Perfil">
-                           <styleClass>
-                              <String fx:value="texto" />
-                              <String fx:value="texto-ajustes" />
-                           </styleClass></Button>
-                        <Button mnemonicParsing="false" text="Biblioteca">
-                           <styleClass>
-                              <String fx:value="texto" />
-                              <String fx:value="texto-ajustes" />
-                           </styleClass></Button>
-                        <Button fx:id="saldoAjustes" mnemonicParsing="false" onAction="#abrirVentanaSaldo" styleClass="texto-saldo" text="Saldo: 0€" />
-                        <Button mnemonicParsing="false" text="Historial de compras">
-                           <styleClass>
-                              <String fx:value="texto" />
-                              <String fx:value="texto-ajustes" />
-                           </styleClass></Button>
-                        <Button mnemonicParsing="false" text="Ajustes">
-                           <styleClass>
-                              <String fx:value="texto" />
-                              <String fx:value="texto-ajustes" />
-                           </styleClass></Button>
+                        <VBox fx:id="panelAjustes" maxWidth="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" visible="false" AnchorPane.rightAnchor="66.4" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Perfil">
+                                 <styleClass>
+                                    <String fx:value="texto" />
+                                    <String fx:value="texto-ajustes" />
+                                 </styleClass>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Biblioteca">
+                                 <styleClass>
+                                    <String fx:value="texto" />
+                                    <String fx:value="texto-ajustes" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="saldoAjustes" mnemonicParsing="false" onAction="#abrirVentanaSaldo" styleClass="texto-saldo" text="Saldo: 0€" />
+                              <Button mnemonicParsing="false" text="Historial de compras">
+                                 <styleClass>
+                                    <String fx:value="texto" />
+                                    <String fx:value="texto-ajustes" />
+                                 </styleClass>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Ajustes">
+                                 <styleClass>
+                                    <String fx:value="texto" />
+                                    <String fx:value="texto-ajustes" />
+                                 </styleClass>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <Button fx:id="botonAjustes" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuAjustes" prefHeight="50.0" prefWidth="50.0" styleClass="boton-ajustes" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <graphic>
+                              <ImageView fx:id="imagenEngranaje" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/engranaje-amarillo.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
-                  </VBox>
-                  <Button fx:id="botonAjustes" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuAjustes" prefHeight="50.0" prefWidth="50.0" styleClass="boton-ajustes">
-                     <graphic>
-                        <ImageView fx:id="imagenEngranaje" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/engranaje-amarillo.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
+                  </AnchorPane>
                </children>
             </HBox>
-            <ScrollPane fx:id="tiendaPrincipal" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="480.0" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+            <ScrollPane fx:id="tiendaPrincipal" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="272.0" prefWidth="470.0" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                <content>
                   <VBox fx:id="filasMain" prefHeight="322.0" prefWidth="464.0" spacing="30.0">
                      <padding>

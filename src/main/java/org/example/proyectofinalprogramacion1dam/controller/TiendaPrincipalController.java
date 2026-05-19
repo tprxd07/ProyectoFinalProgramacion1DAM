@@ -45,6 +45,8 @@ public class TiendaPrincipalController implements Initializable {
     private TextField busqueda;
 
     @FXML
+    private HBox menuArriba;
+    @FXML
     private Button flechaBusqueda;
 
     private ContextMenu menuBusqueda;
@@ -110,9 +112,12 @@ public class TiendaPrincipalController implements Initializable {
         if (ajustesAbierto){
             Util.animarAncho(panelAjustes, 150, 300);
             Util.girar(imagenEngranaje, 0, 300);
+            Util.animarAlto(menuArriba, panelAjustes.getHeight(), 300);
+            System.out.println(panelAjustes.getHeight());
         }else{
             Util.animarAncho(panelAjustes, 0, 300);
             Util.girar(imagenEngranaje, 180, 300);
+            Util.animarAlto(menuArriba, 100, 300);
         }
         actualizarSaldo();
     }
@@ -203,7 +208,7 @@ public class TiendaPrincipalController implements Initializable {
     public void actualizarSaldo(){
         Usuario user = Sesion.getUsuarioActual()    ;
         double saldo = user.getSaldo();
-        saldoAjustes.setText("Saldo: " + String.format("%.2f €", saldo));
+        saldoAjustes.setText("Monedero: " + String.format("%.2f €", saldo));
     }
 
     public void crearAplicacion(){
@@ -213,7 +218,7 @@ public class TiendaPrincipalController implements Initializable {
 
     @FXML
     public void abrirVentanaSaldo(){
-        SceneManager.abrirVentana("Saldo.fxml", "Añadir Saldo", true);
+        SceneManager.abrirVentana("Saldo.fxml", "Recargar monedero", true);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -221,6 +226,10 @@ public class TiendaPrincipalController implements Initializable {
         botonesNav = Arrays.asList(botonApps, botonJuegos, botonInicio, botonCrear);
         this.vistaActual="Inicio";
         actualizarEstadoMenu(botonInicio);
+        panelAjustes.setMouseTransparent(false);
+        panelAjustes.toFront();
+        botonAjustes.setMouseTransparent(false);
+        botonAjustes.toFront();
         generarTienda();
     }
 }

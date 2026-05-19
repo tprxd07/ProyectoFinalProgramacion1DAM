@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.proyectofinalprogramacion1dam.controller.SaldoController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<VBox prefHeight="372.0" prefWidth="350.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.SaldoController">
+   <children>
+      <Label alignment="CENTER" minHeight="100.0" prefHeight="100.0" prefWidth="450.0" styleClass="label-monedero" text="Seleccione una opción:">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rb5" mnemonicParsing="false" selected="true" styleClass="texto" text="5€">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="12.0" left="50.0" right="12.0" top="12.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoSaldo" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rb10" mnemonicParsing="false" styleClass="texto" text="10€" toggleGroup="$grupoSaldo">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="12.0" left="50.0" right="12.0" top="12.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </RadioButton>
+      <RadioButton fx:id="rb20" mnemonicParsing="false" styleClass="texto" text="20€" toggleGroup="$grupoSaldo">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="12.0" left="50.0" right="12.0" top="12.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </RadioButton>
+      <HBox alignment="CENTER_LEFT">
+         <VBox.margin>
+            <Insets bottom="12.0" left="50.0" right="12.0" top="12.0" />
+         </VBox.margin>
+         <children>
+            <RadioButton fx:id="rbPersonalizado" mnemonicParsing="false" styleClass="texto" toggleGroup="$grupoSaldo">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </RadioButton>
+            <TextField fx:id="saldoPersonalizado" alignment="TOP_LEFT" disable="true" promptText=" Introduzca cantidad..." style="-fx-text-fill: grey;" styleClass="texto">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <Label fx:id="seguro" alignment="CENTER" styleClass="texto" text="¿Está seguro/a?" visible="false">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="123.0" />
+         </VBox.margin></Label>
+      <Button fx:id="confirmar" mnemonicParsing="false" onAction="#accionarConfirmar" prefHeight="50.0" prefWidth="120.0" styleClass="boton-basico" text="Confirmar">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="115.0" top="10.0" />
+         </VBox.margin>
+      </Button>
+      <HBox fx:id="contenedorConfirmacion" prefHeight="100.0" prefWidth="200.0" visible="false">
+         <children>
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmarSi" prefWidth="60.0" style="-fx-border-color:hover: green;" styleClass="boton-basico" text="Sí">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="70.0" />
+               </HBox.margin>
+            </Button>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmarNo" prefWidth="60.0" style="-fx-border-color:hover: red;" styleClass="boton-basico" text="No">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="70.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

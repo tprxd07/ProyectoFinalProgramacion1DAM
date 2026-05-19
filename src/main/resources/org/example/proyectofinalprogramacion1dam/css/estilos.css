@@ -6,8 +6,10 @@
      borderGrey: #101010;
      yellow: #f1c40f;
      blue: #00d2ff;
+     bluebg: #165D6E;
      greenbg: #51FF00;
      textWhite: #f3f3f3;
+     error: #ee1212;
 }
 .main-container {
     -fx-background-color: darkGrey;
@@ -114,7 +116,17 @@
     -fx-underline: true
 }
 .texto-ajustes:hover{
-    -fx-background-colo: transparent;
+    -fx-background-color: transparent;
     -fx-text-fill: yellow;
     -fx-underline: true;
+}
+.label-monedero{
+    -fx-background-color: bluebg;
+    -fx-text-fill: textWhite;
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+}
+.error{
+    -fx-background-color: transparent;
+    -fx-text-fill: error;
 }
