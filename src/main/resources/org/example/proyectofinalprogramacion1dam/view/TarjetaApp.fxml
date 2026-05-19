@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="160.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.TarjetaAppController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDetected="#abrirDetalles" prefHeight="200.0" prefWidth="160.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.TarjetaAppController">
    <children>
       <ImageView fx:id="portada" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
          <VBox.margin>
@@ -16,12 +16,15 @@
       </ImageView>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="128.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label fx:id="titulo" styleClass="text-field" text="Label" HBox.hgrow="SOMETIMES" />
+            <Label fx:id="titulo" styleClass="texto" text="Label" HBox.hgrow="SOMETIMES" />
             <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="precio" prefWidth="45.0" text="Label" HBox.hgrow="NEVER">
+            <Label fx:id="precio" alignment="CENTER_RIGHT" text="Label" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets />
-               </HBox.margin></Label>
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding></Label>
          </children>
       </HBox>
    </children>

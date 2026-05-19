@@ -113,3 +113,8 @@
     -fx-text-fill: blue;
     -fx-underline: true
 }
+.texto-ajustes:hover{
+    -fx-background-colo: transparent;
+    -fx-text-fill: yellow;
+    -fx-underline: true;
+}

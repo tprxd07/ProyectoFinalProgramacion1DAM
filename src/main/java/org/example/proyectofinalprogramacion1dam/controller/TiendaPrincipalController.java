@@ -2,12 +2,9 @@ package org.example.proyectofinalprogramacion1dam.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,7 +19,6 @@ import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
 import org.example.proyectofinalprogramacion1dam.utils.Sesion;
 import org.example.proyectofinalprogramacion1dam.utils.Util;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Stream;
@@ -43,6 +39,9 @@ public class TiendaPrincipalController implements Initializable {
     private Button botonJuegos;
 
     @FXML
+    private Button botonCrear;
+
+    @FXML
     private TextField busqueda;
 
     @FXML
@@ -59,6 +58,8 @@ public class TiendaPrincipalController implements Initializable {
     private VBox filasMain;
     @FXML
     private Button saldoAjustes;
+    @FXML
+    private ScrollPane tiendaPrincipal;
 
     private boolean ajustesAbierto = false;
     private List<Button> botonesNav;
@@ -94,6 +95,9 @@ public class TiendaPrincipalController implements Initializable {
                 vistaActual = "Apps";
                 break;
 
+            case "botonCrear":
+                vistaActual = "Crear";
+                break;
             default:
                 vistaActual = "Inicio";
                 break;
@@ -127,7 +131,7 @@ public class TiendaPrincipalController implements Initializable {
             listaApps = AplicacionDAO.findAll();
         }
 
-        List<Aplicacion> listaFinal = getAplicacions(listaApps);
+        List<Aplicacion> listaFinal = getAplicaciones(listaApps);
 
         //Las secciones se crean por cada nombre de categoria
         for (Categoria cat : Categoria.values()) {
@@ -183,7 +187,7 @@ public class TiendaPrincipalController implements Initializable {
         }
     }
 
-    private List<Aplicacion> getAplicacions(List<Aplicacion> listaApps) {
+    private List<Aplicacion> getAplicaciones(List<Aplicacion> listaApps) {
         String textoBusqueda = busqueda.getText().trim().toLowerCase();
         Stream<Aplicacion> streamFiltrado = listaApps.stream()
                 .filter(a -> a.getNombre().toLowerCase().contains(textoBusqueda));
@@ -202,6 +206,11 @@ public class TiendaPrincipalController implements Initializable {
         saldoAjustes.setText("Saldo: " + String.format("%.2f €", saldo));
     }
 
+    public void crearAplicacion(){
+        SceneManager.inyectarEscena(tiendaPrincipal, "CrearApp.fxml");
+        busqueda.setVisible(false);
+    }
+
     @FXML
     public void abrirVentanaSaldo(){
         SceneManager.abrirVentana("Saldo.fxml", "Añadir Saldo", true);
@@ -209,7 +218,7 @@ public class TiendaPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
-        botonesNav = Arrays.asList(botonApps, botonJuegos, botonInicio);
+        botonesNav = Arrays.asList(botonApps, botonJuegos, botonInicio, botonCrear);
         this.vistaActual="Inicio";
         actualizarEstadoMenu(botonInicio);
         generarTienda();

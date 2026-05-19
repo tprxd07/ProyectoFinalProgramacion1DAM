@@ -74,4 +74,27 @@ public class Util {
         }
         timeline.play();
     }
+
+    /**
+     * Anima un contenedor para que se estire su altura
+     * @param region Contenedor que se va a animar
+     * @param altoDestino Height que tendrá el contenedor
+     * @param ms Milisegundos que dura la animación
+     */
+    public static void animarAlto(Region region, double altoDestino, int ms){
+        if (altoDestino > 0) region.setVisible(true);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(ms),
+                        new KeyValue(region.minHeightProperty(), altoDestino),
+                        new KeyValue(region.prefHeightProperty(), altoDestino),
+                        new KeyValue(region.maxHeightProperty(), altoDestino)
+                )
+        );
+        if (altoDestino == 0) {
+            timeline.setOnFinished(e -> region.setVisible(false));
+        }
+        timeline.play();
+    }
 }
+

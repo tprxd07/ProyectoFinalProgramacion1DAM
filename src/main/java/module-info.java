@@ -15,4 +15,6 @@ module org.example.proyectofinalprogramacion1dam {
     opens org.example.proyectofinalprogramacion1dam.view to javafx.fxml;
     exports org.example.proyectofinalprogramacion1dam.utils;
     opens org.example.proyectofinalprogramacion1dam.utils to javafx.fxml;
+    exports org.example.proyectofinalprogramacion1dam.model;
+    opens org.example.proyectofinalprogramacion1dam.model to javafx.fxml;
 }

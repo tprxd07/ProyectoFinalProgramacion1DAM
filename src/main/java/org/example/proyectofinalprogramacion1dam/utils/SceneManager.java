@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.proyectofinalprogramacion1dam.controller.DetalleAppController;
@@ -57,32 +58,40 @@ public class SceneManager {
      * @param contenedor El panel donde queremos meter el diseño.
      * @param fxmlFileName Solo el nombre del archivo ("Login.fxml").
      */
-    public static Object inyectarEscena(Pane contenedor, String fxmlFileName) {
+    public static Object inyectarEscena(Region contenedor, String fxmlFileName) { // Cambiado Pane por Region
         try {
             String ruta = "/org/example/proyectofinalprogramacion1dam/view/" + fxmlFileName;
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(ruta));
             Node nuevoNodo = loader.load();
 
-            //Se limpia la escena que estuviera antes
-            contenedor.getChildren().setAll(nuevoNodo);
+            //Si el contenedor es un ScrollPane, usamos setContent
+            if (contenedor instanceof ScrollPane) {
+                ScrollPane scroll = (ScrollPane) contenedor;
+                scroll.setContent(nuevoNodo);
+            } else {
+                // Si es un contenedor normal, usamos getChildren
+                ((Pane) contenedor).getChildren().setAll(nuevoNodo);
+            }
 
-            //Solo se ajusta si es un anchor pane para que rellene el espacio restante
+            //Ajustes de crecimiento según el contenedor
             if (contenedor instanceof AnchorPane) {
                 AnchorPane.setTopAnchor(nuevoNodo, 0.0);
                 AnchorPane.setBottomAnchor(nuevoNodo, 0.0);
                 AnchorPane.setLeftAnchor(nuevoNodo, 0.0);
                 AnchorPane.setRightAnchor(nuevoNodo, 0.0);
             }
-
-            //Solo si es VBox se fuerza a que crezca verticalmente
             else if (contenedor instanceof VBox) {
                 VBox.setVgrow(nuevoNodo, Priority.ALWAYS);
             }
-
-            //Solo si es HBox se fuerza a que crezca horizontalmente
             else if (contenedor instanceof HBox) {
                 HBox.setHgrow(nuevoNodo, Priority.ALWAYS);
             }
+            // Ajuste para el ScrollPane
+            else if (contenedor instanceof ScrollPane scroll) {
+                scroll.setFitToWidth(true);
+                scroll.setFitToHeight(true);
+            }
+
             return loader.getController();
 
         } catch (IOException e) {
@@ -93,6 +102,7 @@ public class SceneManager {
         }
         return null;
     }
+
 
     /**
      * Carga la página de detalles de una app al seleccionarla
