@@ -45,7 +45,7 @@ public class BibliotecaDAO {
 
             //si tiene precio se usa HistorialCompra y compraDAO
             if (app.getPrecio() > 0) {
-                HistorialCompra hc = new HistorialCompra(app.getId(), user.getId(), app.getPrecio(), LocalDateTime.now());
+                HistorialCompra hc = new HistorialCompra(app.getId(), user.getId(), app.getPrecio());
 
                 // Registramos usando tu metodo existente
                 if (!CompraDAO.registrarCompra(hc)) {
