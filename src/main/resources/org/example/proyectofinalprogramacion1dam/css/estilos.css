@@ -130,3 +130,8 @@
     -fx-background-color: transparent;
     -fx-text-fill: error;
 }
+.boton-descargas{
+    -fx-background-color: lightGrey;
+    -fx-text-fill: textWhite;
+    -fx-border-color: blue;
+}

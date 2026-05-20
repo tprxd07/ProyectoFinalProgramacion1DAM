@@ -10,13 +10,14 @@ import javafx.stage.Stage;
 import org.example.proyectofinalprogramacion1dam.controller.DetalleAppController;
 import org.example.proyectofinalprogramacion1dam.controller.TarjetaAppController;
 import org.example.proyectofinalprogramacion1dam.model.Aplicacion;
+import org.example.proyectofinalprogramacion1dam.model.Resenia;
 
 import java.io.IOException;
 
 
 public class SceneManager {
 
-
+    private static final String RUTA = "/org/example/proyectofinalprogramacion1dam/view/";
     /**
      * Cambia el contenido completo de la ventana
      * @param currentScene Escena actual de la ventana
@@ -24,8 +25,7 @@ public class SceneManager {
      */
     public static void cambiarEscena(Scene currentScene, String fxmlFileName) {
         try {
-            String ruta = "/org/example/proyectofinalprogramacion1dam/view/" + fxmlFileName;
-            Parent root = FXMLLoader.load(SceneManager.class.getResource(ruta));
+            Parent root = FXMLLoader.load(SceneManager.class.getResource(RUTA + fxmlFileName));
             currentScene.setRoot(root);
         } catch (IOException e) {
             System.err.println("Error: No se pudo cargar el archivo " + fxmlFileName);
@@ -40,7 +40,7 @@ public class SceneManager {
      */
     public static Node cargarTarjeta(Aplicacion app) {
         try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/org/example/proyectofinalprogramacion1dam/view/TarjetaApp.fxml"));
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(RUTA+"TarjetaApp.fxml"));
             Node tarjeta = loader.load();
             TarjetaAppController controller = loader.getController();
             controller.setDatos(app);
@@ -52,6 +52,15 @@ public class SceneManager {
         }
     }
 
+    public static Node cargarResenia(Resenia reseniaa, boolean esLaPropia, DetalleAppController padre) {
+        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(RUTA+"Resenia.fxml"));
+        if (loader == null) return null;
+
+        org.example.proyectofinalprogramacion1dam.controller.ReseniaController controller = loader.getController();
+        controller.setResenia(reseniaa, esLaPropia, padre);
+
+        return loader.getRoot();
+    }
     /**
      * Inyecta un FXML dentro de un contenedor (Pane o derivados).
      * Este metodo cambia solo una parte de la ventana
@@ -110,14 +119,17 @@ public class SceneManager {
      */
     public static void mostrarDetalles(Aplicacion app, Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/org/example/proyectofinalprogramacion1dam/view/DetallesApp.fxml"));
+            //Guardar la aplicacion de forma global
+            Sesion.setAppSeleccionada(app);
+
+            String rutaCompleta = RUTA+ "DetallesApp.fxml";
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(rutaCompleta));
             Parent root = loader.load();
-            DetalleAppController controller = loader.getController();
-            //controller.setDatos(app);
 
             stage.getScene().setRoot(root);
 
         } catch (IOException e) {
+            System.err.println("Error al redirigir a la pantalla de detalles.");
             e.printStackTrace();
         }
     }

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompraDAO {
-    private final static String SQL_INSERT = "INSERT INTO paga (idApp, idUsuario, precioPagado, fechaCompra) VALUES (?, ?, ?, ?)";
+    private final static String SQL_INSERT = "INSERT INTO paga (idApp, idUsuario, precioPagado) VALUES (?, ?, ?)";
     private final static String SQL_FIND_BY_USER = "SELECT * FROM paga WHERE idUsuario = ?";
     private final static String SQL_FIND_ALL = "SELECT * FROM paga";
 
     /**
-     * Registra una nueva compra en la tabla 'paga'.
+     * Registra una nueva compra en la tabla paga
      * @param hc Objeto con los datos de la transacción.
      * @return true si la inserción fue exitosa.
      */
@@ -28,10 +28,6 @@ public class CompraDAO {
             ps.setInt(1, hc.getIdApp());
             ps.setInt(2, hc.getIdUsuario());
             ps.setDouble(3, hc.getPrecioPagado());
-
-            LocalDateTime fecha = (hc.getFechaCompra() != null) ? hc.getFechaCompra() : LocalDateTime.now();
-            ps.setTimestamp(4, Timestamp.valueOf(fecha));
-
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error al registrar compra: " + e.getMessage());
@@ -53,8 +49,7 @@ public class CompraDAO {
                 historial.add(new HistorialCompra(
                         rs.getInt("idApp"),
                         rs.getInt("idUsuario"),
-                        rs.getDouble("precioPagado"),
-                        rs.getTimestamp("fechaCompra").toLocalDateTime()
+                        rs.getDouble("precioPagado")
                 ));
             }
         } catch (SQLException e) {
@@ -73,8 +68,7 @@ public class CompraDAO {
                 lista.add(new HistorialCompra(
                         rs.getInt("idApp"),
                         rs.getInt("idUsuario"),
-                        rs.getDouble("precioPagado"),
-                        rs.getTimestamp("fechaCompra").toLocalDateTime()
+                        rs.getDouble("precioPagado")
                 ));
             }
         } catch (SQLException e) {

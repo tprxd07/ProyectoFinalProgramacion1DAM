@@ -1,14 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25">
-  <content>
-    <AnchorPane>
-         <children>
-            <Button mnemonicParsing="false" text="Button" />
-         </children></AnchorPane>
-  </content>
-</ScrollPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="volver" mnemonicParsing="false" prefHeight="51.0" prefWidth="42.0" styleClass="texto">
+         <graphic>
+            <ImageView fitHeight="41.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="texto">
+               <image>
+                  <Image url="@../images/volver.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ScrollPane hbarPolicy="NEVER" layoutX="50.0" prefHeight="400.0" prefWidth="500.0" vbarPolicy="NEVER" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox prefHeight="400.0" prefWidth="500.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="nombre" styleClass="texto">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="desarrollador" styleClass="texto" />
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                              <Label fx:id="descargas" styleClass="texto" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="botonAdquirir" mnemonicParsing="false" styleClass="boton-descargas" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="descripcion" styleClass="texto" wrapText="true" />
+                  <VBox fx:id="nuevaResenia" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Valora esta aplicación" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Puntuación: " />
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+                                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+                                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+                                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+                                    <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

@@ -71,6 +71,15 @@ public class TiendaPrincipalController implements Initializable {
     public static TiendaPrincipalController getInstance() {
         return instancia;
     }
+
+    /**
+     * Devuelve el contenedor ScrollPane central de la tienda para poder cambiar su contenido
+     * @return El ScrollPane principal
+     */
+    public ScrollPane getTiendaPrincipal() {
+        return this.tiendaPrincipal;
+    }
+
     private void actualizarEstadoMenu(Button botonPulsado) {
         for (Button b : botonesNav) {
             b.getStyleClass().remove("nav-button-active");
