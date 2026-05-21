@@ -40,7 +40,7 @@ public class DetalleAppController implements Initializable {
 
     @FXML private VBox contenedorResenia;
 
-    private List<ToggleButton> listaEstrellas;
+    private List<ToggleButton> puntuacionEstrellas;
     private int puntuacionSeleccionada = 0;
     private Aplicacion appActual;
     //Devuelve la reseña que el usuario tenga para esta app.
@@ -159,8 +159,8 @@ public class DetalleAppController implements Initializable {
     }
 
     private void actualizarEstrellasVisuales(int puntuacion) {
-        for (int i = 0; i < listaEstrellas.size(); i++) {
-            ToggleButton estrella = listaEstrellas.get(i);
+        for (int i = 0; i < puntuacionEstrellas.size(); i++) {
+            ToggleButton estrella = puntuacionEstrellas.get(i);
             if (i < puntuacion) {
                 estrella.setSelected(true);
                 estrella.setText("★");
@@ -204,11 +204,11 @@ public class DetalleAppController implements Initializable {
         }
 
         // Renderiza el resto de las opiniones de la app desde la Base de Datos
-        List<Resenia> todasLasReseñas = ReseniaDAO.findAll().stream()
+        List<Resenia> todasLasResenias = ReseniaDAO.findAll().stream()
                 .filter(r -> r.getIdApp() == appActual.getId())
                 .toList();
 
-        for (Resenia r : todasLasReseñas) {
+        for (Resenia r : todasLasResenias) {
             if (reseniaPropia != null && r.getId() == reseniaPropia.getId()) {
                 continue; // Evita duplicar tu propia reseña en la zona general
             }
@@ -225,7 +225,7 @@ public class DetalleAppController implements Initializable {
     }
 
     @FXML
-    private void enviarFormularioReseña() {
+    private void enviarFormularioResenia() {
         String comentario = this.comentario.getText().trim();
         int puntos = puntuacionSeleccionada;
 
@@ -269,14 +269,14 @@ public class DetalleAppController implements Initializable {
         }
 
         // 2. Inicializar componentes de las estrellas
-        listaEstrellas = Arrays.asList(star1, star2, star3, star4, star5);
+        puntuacionEstrellas = Arrays.asList(star1, star2, star3, star4, star5);
         confirmarResenia.setDisable(true);
 
         comentario.textProperty().addListener((observable, oldValue, newValue) -> validarFormulario());
 
-        for (int i = 0; i < listaEstrellas.size(); i++) {
+        for (int i = 0; i < puntuacionEstrellas.size(); i++) {
             final int indiceActual = i + 1;
-            ToggleButton botonEstrella = listaEstrellas.get(i);
+            ToggleButton botonEstrella = puntuacionEstrellas.get(i);
             botonEstrella.setOnAction(event -> {
                 puntuacionSeleccionada = indiceActual;
                 actualizarEstrellasVisuales(puntuacionSeleccionada);
