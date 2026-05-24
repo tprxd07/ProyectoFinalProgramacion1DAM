@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase DAO encargada del subtipo de aplicaciones Videojuego
+ */
 public class VideojuegoDAO {
     private final static String SQL_ALL_V = "SELECT idApp, multijugador FROM videojuego";
     private final static String SQL_FIND_SPECIFIC = "SELECT multijugador FROM videojuego WHERE idApp = ?";
@@ -20,12 +23,12 @@ public class VideojuegoDAO {
      */
     public static List<Videojuego> findAll() {
         List<Videojuego> videojuegos = new ArrayList<>();
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_ALL_V);
+             ResultSet rs = ps.executeQuery()) {
 
-        try (ResultSet rs = ConnectionBD.getConnection().createStatement().executeQuery(SQL_ALL_V)) {
             while (rs.next()) {
                 int id = rs.getInt("idApp");
                 boolean multi = rs.getBoolean("multijugador");
-
                 Aplicacion base = AplicacionDAO.findById(id);
 
                 if (base != null) {
@@ -34,7 +37,6 @@ public class VideojuegoDAO {
                             base.getNombre(),
                             base.getDescripcion(),
                             base.getPrecio(),
-                            base.getVersion(),
                             base.getDescargas(),
                             base.getCategoria(),
                             base.getIdDesarrollador(),
@@ -44,7 +46,7 @@ public class VideojuegoDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar videojuegos: " + e.getMessage());
+            throw new RuntimeException("Error al listar videojuegos con PreparedStatement: " + e.getMessage());
         }
         return videojuegos;
     }
@@ -68,7 +70,6 @@ public class VideojuegoDAO {
                         base.getNombre(),
                         base.getDescripcion(),
                         base.getPrecio(),
-                        base.getVersion(),
                         base.getDescargas(),
                         base.getCategoria(),
                         base.getIdDesarrollador(),
@@ -88,35 +89,30 @@ public class VideojuegoDAO {
      * @return true si se puede añadir, false si no
      */
     public static boolean addVideojuego(Videojuego v) {
-        int idAsignado = AplicacionDAO.addAplicacion(v);
+        if (v == null) return false;
+        try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT_SPECIFIC)) {
+            ps.setInt(1, v.getId());
+            ps.setBoolean(2, v.isMultijugador());
 
-        if (idAsignado != -1) {
-            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT_SPECIFIC)) {
-                ps.setInt(1, idAsignado);
-                ps.setBoolean(2, v.isMultijugador());
-                return ps.executeUpdate() > 0;
-            } catch (SQLException e) {
-                throw new RuntimeException("Error al insertar subtipo Videojuego: " + e.getMessage());
-            }
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar en la tabla videojuego: " + e.getMessage());
         }
-        return false;
     }
 
     /**
-     * Acrualiza la informacion de un videojuego
+     * Actualiza la informacion de un videojuego
      * @param v videojuego que acabo de actualizar
-     * @return devuelve true si actualiza
      */
-    public static boolean updateVideojuego(Videojuego v) {
+    public static void updateVideojuego(Videojuego v) {
         if (AplicacionDAO.updateAplicacion(v)) {
             try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE_SPECIFIC)) {
                 ps.setBoolean(1, v.isMultijugador());
                 ps.setInt(2, v.getId());
-                return ps.executeUpdate() > 0;
+                ps.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException("Error al actualizar subtipo Videojuego: " + e.getMessage());
             }
         }
-        return false;
     }
 }

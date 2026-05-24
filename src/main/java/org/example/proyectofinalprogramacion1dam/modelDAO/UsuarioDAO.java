@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase dao que se encarga de gestionar a los usuarios en la BBDD
+ */
 public class UsuarioDAO {
     private final static String SQL_ALL = "SELECT * FROM usuario";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM usuario WHERE id = ?";
@@ -92,7 +95,7 @@ public class UsuarioDAO {
     }
 
     /**
-     * Busca un usuario por su nombre de usuario (Nickname).
+     * Busca un usuario por su nombre de usuario
      * @param username El nombre de usuario a buscar.
      * @return El objeto Usuario si lo encuentra, null si no existe.
      */
@@ -118,12 +121,12 @@ public class UsuarioDAO {
     }
 
     /**
-     * Metodo para validar el login.
-     * @param email correo electronico
-     * @param pass contraseña
-     * @return El objeto Usuario si las credenciales son correctas, null si no.
+     * Crea un usuario segun los datos de registrar usuario y valida el Login en el mismo metodo
+     * @param email Correo del usuario
+     * @param pass Contraseña del usuario
+     * @return
      */
-    public static Usuario login(String email, String pass) {
+    public static Usuario addUsuario(String email, String pass) {
         Usuario usuario = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_LOGIN)) {
             ps.setString(1, email);
@@ -155,7 +158,7 @@ public class UsuarioDAO {
         }
 
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
-            ps.setString(1, user.getNombreUsuario());
+            ps.setString(1, user.getNombre());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getContrasenia());
             ps.setDouble(4, user.getSaldo());
@@ -165,27 +168,6 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Registra un nuevo usuario en la base de datos.
-     * @param user Objeto usuario con los datos de registro.
-     * @return true si se ha insertado correctamente.
-     */
-    public static boolean addUsuario(Usuario user) {
-        boolean added = false;
-        if (user != null && findByEmail(user.getEmail()) == null) {
-            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
-                ps.setString(1, user.getNombreUsuario());
-                ps.setString(2, user.getEmail());
-                ps.setString(3, user.getContrasenia());
-                ps.executeUpdate();
-                added = true;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return added;
     }
 
     public static boolean deleteUser(int id){

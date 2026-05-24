@@ -1,12 +1,9 @@
 package org.example.proyectofinalprogramacion1dam.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -60,7 +57,7 @@ public class LoginController implements Initializable {
         if (userExistente == null) {
             textoSesion.setText("El correo no tiene cuenta asignada");
         } else {
-            Usuario userLogueado = UsuarioDAO.login(email, pass);
+            Usuario userLogueado = UsuarioDAO.addUsuario(email, pass);
             if (userLogueado == null) {
                 textoSesion.setText("Contraseña incorrecta");
             } else {
@@ -72,7 +69,7 @@ public class LoginController implements Initializable {
                 ventana.setMinHeight(400);
                 ventana.setWidth(600);
                 ventana.setHeight(400);
-                textoSesion.setText("Bienvenido, " + userLogueado.getNombreUsuario());
+                textoSesion.setText("Bienvenido, " + userLogueado.getNombre());
                 SceneManager.cambiarEscena(escenaActual, "TiendaPrincipal.fxml");
             }
         }
@@ -89,36 +86,19 @@ public class LoginController implements Initializable {
         if (user.isEmpty() || email.isEmpty() || pass.isEmpty()) {
             textoSesion.setText("Rellena todos los campos");
             return;
-        }
-
-        if (!pass.equals(confirm)) {
+        }else if (!pass.equals(confirm)) {
             textoSesion.setText("Las contraseñas no coinciden");
             return;
-        }
-
-        if (UsuarioDAO.findByEmail(email) != null) {
+        }else if (UsuarioDAO.findByEmail(email) != null) {
             textoSesion.setText("Este correo ya tiene una cuenta asignada");
             return;
-        }
-
-        if (UsuarioDAO.findByUsername(user) != null) {
+        }else if (UsuarioDAO.findByUsername(user) != null) {
             textoSesion.setText("Ya existe este nombre de usuario");
-            return;
-        }
-
-        Usuario nuevoUsuario = new Usuario(user, email, pass);
-
-        if (UsuarioDAO.addUsuario(nuevoUsuario)) {
-            Sesion.setMensajeInfo("Bienvenido, " + nuevoUsuario.getNombreUsuario());
-            mostrarLogin();
-        } else {
-            textoSesion.setText("Error al conectar con la base de datos");
         }
     }
 
     @FXML
     private void soniditoGracioso(){
-        Util.reproducirSonido("nose-sound.mp3");
         Sesion.setUsuarioActual(UsuarioDAO.findById(5));
         Scene escenaActual = textoSesion.getScene();
         Stage ventana=(Stage) escenaActual.getWindow();

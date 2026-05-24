@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.example.proyectofinalprogramacion1dam.utils.Util;
 
-
+//Esta clase tiene los datos el usuario que va a iniciar sesion
 public class LoginInfoController {
     @FXML
     private TextField textoCorreoLogin;
@@ -33,6 +33,7 @@ public class LoginInfoController {
         return textoContraseniaPrivado.getText();
     }
 
+    //Cambia la visibilidad de la contraseña al pulsar el simbolo del ojo
     @FXML
     private void togglePassword(){
         if (botonOjo.isSelected()){

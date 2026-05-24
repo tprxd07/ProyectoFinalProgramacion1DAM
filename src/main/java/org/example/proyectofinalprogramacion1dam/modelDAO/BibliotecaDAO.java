@@ -11,8 +11,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Dao que gestiona las aplicaciones adquiridas por el usuario
+ */
 public class BibliotecaDAO {
-    private final static String SQL_INSERT = "INSERT INTO adquiere (idApp, idUsuario, fechaAdquisicion) VALUES (?, ?, ?)";
+    private final static String SQL_INSERT = "INSERT INTO adquiere (idApp, idUsuario) VALUES (?, ?)";
     private final static String SQL_FIND_BY_USER = "SELECT * FROM adquiere WHERE idUsuario = ?";
     private final static String SQL_FIND_ALL = "SELECT * FROM adquiere";
     private final static String SQL_CHECK_OWNER = "SELECT * FROM adquiere WHERE idApp = ? AND idUsuario = ?";
@@ -29,25 +32,19 @@ public class BibliotecaDAO {
         try {
             con = ConnectionBD.getConnection();
             con.setAutoCommit(false);
-
             try (PreparedStatement ps = con.prepareStatement(SQL_INSERT)) {
                 ps.setInt(1, app.getId());
                 ps.setInt(2, user.getId());
-                ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
                 ps.executeUpdate();
             }
-
             //+1 a las descargas de la app
             try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE_DESCARGAS)) {
                 ps.setInt(1, app.getId());
                 ps.executeUpdate();
             }
-
             //si tiene precio se usa HistorialCompra y compraDAO
             if (app.getPrecio() > 0) {
                 HistorialCompra hc = new HistorialCompra(app.getId(), user.getId(), app.getPrecio());
-
-                // Registramos usando tu metodo existente
                 if (!CompraDAO.registrarCompra(hc)) {
                     throw new SQLException("Error al registrar el pago");
                 }
@@ -65,7 +62,7 @@ public class BibliotecaDAO {
     }
 
     /**
-     * Busca la lista de apps de un usuario
+     * Busca la lista de apps que tiene adquirida un usuario
      * @param idUsuario busca al usuario por su id
      * @return Lista de juegos en la biblioteca del usuario
      */
@@ -78,8 +75,7 @@ public class BibliotecaDAO {
 
                 lista.add(new Biblioteca(
                         rs.getInt("idApp"),
-                        rs.getInt("idUsuario"),
-                        rs.getTimestamp("fechaAdquisicion").toLocalDateTime()
+                        rs.getInt("idUsuario")
                 ));
             }
         } catch (SQLException e) {

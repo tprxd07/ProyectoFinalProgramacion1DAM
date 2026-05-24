@@ -10,17 +10,34 @@ import javafx.util.Duration;
 
 import java.net.URL;
 
+/**
+ * Clase con apartados de utilidad varios, necesarios en distintas clases
+ */
 public class Util {
+    /**
+     * Carga una imagen desde los archivos
+     * @param nombreArchivo nombre del archivo
+     * @return Devuelve la imagen, o una imagen por defecto si no se ha encontrado
+     */
     public static Image cargarImagen(String nombreArchivo) {
-        String ruta = "/org/example/proyectofinalprogramacion1dam/images/" + nombreArchivo;
-        var resource = Util.class.getResource(ruta);
-
+        if (nombreArchivo == null || nombreArchivo.trim().isEmpty()) {
+            System.err.println("Advertencia: El campo de imagen está vacío en la BD.");
+            nombreArchivo = "placeholder.png";
+        }
+        String ruta = "/org/example/proyectofinalprogramacion1dam/images/" + nombreArchivo.trim();
+        URL resource = Util.class.getResource(ruta);
         if (resource == null) {
-            System.err.println("Error: No se encuentra la imagen: " + ruta);
-            return null;
+            System.err.println("Error: No se encuentra el archivo físico en los recursos: " + ruta + " -> Cargando placeholder temporal.");
+            ruta = "/org/example/proyectofinalprogramacion1dam/images/placeholder.png";
+            resource = Util.class.getResource(ruta);
         }
         return new Image(resource.toExternalForm());
     }
+
+    /**
+     * Metodo para reproducir un sonido que se encuentre en los archivos
+     * @param archivo nombre del sonido
+     * */
     public static void reproducirSonido(String archivo){
         try{
             String ruta= "/org/example/proyectofinalprogramacion1dam/sounds/"+ archivo;

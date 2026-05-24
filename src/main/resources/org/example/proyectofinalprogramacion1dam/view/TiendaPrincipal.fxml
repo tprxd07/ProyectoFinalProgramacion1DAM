@@ -46,7 +46,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="botonCrear" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#crearAplicacion" styleClass="nav-button" text="Crear aplicacion" VBox.vgrow="ALWAYS">
+            <Button fx:id="botonModificar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirModificarContenido" styleClass="nav-button" text="Modificar datos" VBox.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -59,7 +59,7 @@
       </VBox>
       <VBox prefHeight="400.0" prefWidth="520.0" HBox.hgrow="ALWAYS">
          <children>
-            <HBox fx:id="menuArriba" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="60.0" prefWidth="466.0" VBox.vgrow="ALWAYS">
+            <HBox fx:id="menuArriba" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="60.0" prefWidth="466.0" VBox.vgrow="SOMETIMES">
                <children>
                   <Region prefHeight="100.0" prefWidth="67.0" HBox.hgrow="NEVER" />
                   <TextField fx:id="busqueda" maxWidth="1200.0" onAction="#generarTienda" prefHeight="26.0" prefWidth="214.0" HBox.hgrow="ALWAYS">
@@ -85,26 +85,14 @@
                      <children>
                         <VBox fx:id="panelAjustes" maxWidth="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" visible="false" AnchorPane.rightAnchor="66.4" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Perfil">
-                                 <styleClass>
-                                    <String fx:value="texto" />
-                                    <String fx:value="texto-ajustes" />
-                                 </styleClass>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Biblioteca">
+                              <Button mnemonicParsing="false" onAction="#abrirPerfil" text="Perfil">
                                  <styleClass>
                                     <String fx:value="texto" />
                                     <String fx:value="texto-ajustes" />
                                  </styleClass>
                               </Button>
                               <Button fx:id="saldoAjustes" mnemonicParsing="false" onAction="#abrirVentanaSaldo" styleClass="texto-saldo" text="Saldo: 0€" />
-                              <Button mnemonicParsing="false" text="Historial de compras">
-                                 <styleClass>
-                                    <String fx:value="texto" />
-                                    <String fx:value="texto-ajustes" />
-                                 </styleClass>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Ajustes">
+                              <Button mnemonicParsing="false" onAction="#abrirHistorialCompras" text="Historial de compras">
                                  <styleClass>
                                     <String fx:value="texto" />
                                     <String fx:value="texto-ajustes" />

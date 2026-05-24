@@ -3,12 +3,21 @@ package org.example.proyectofinalprogramacion1dam.model;
 public class Videojuego extends Aplicacion {
     private boolean multijugador;
 
-    public Videojuego(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
-        super(id, nombre, descripcion, precio, version, descargas, categoria, idDesarrollador, imagen);
+    /**
+     * Hereda el constructor completo de la clase aplicacion, además de añadir
+     * @param multijugador un boolean de true o false
+     */
+    public Videojuego(int id, String nombre, String descripcion, double precio, int descargas, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
+        super(id, nombre, descripcion, precio,descargas, categoria, idDesarrollador, imagen);
         this.multijugador = multijugador;
     }
-    public Videojuego(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
-        super(nombre, descripcion, precio, version, categoria, idDesarrollador, imagen);
+
+    /**
+     * Hereda el constructor incompleto de la clase aplicacion, además de añadir
+     * @param multijugador un boolean de true o false
+     */
+    public Videojuego(String nombre, String descripcion, double precio, Categoria categoria, int idDesarrollador, String imagen, boolean multijugador) {
+        super(nombre, descripcion, precio, categoria, idDesarrollador, imagen);
         this.multijugador = multijugador;
     }
 

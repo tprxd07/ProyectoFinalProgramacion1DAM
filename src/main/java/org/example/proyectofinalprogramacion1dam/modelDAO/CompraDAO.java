@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase DAO para la gestión de la persistencia de compras en la base de datos
+ */
 public class CompraDAO {
     private final static String SQL_INSERT = "INSERT INTO paga (idApp, idUsuario, precioPagado) VALUES (?, ?, ?)";
     private final static String SQL_FIND_BY_USER = "SELECT * FROM paga WHERE idUsuario = ?";
@@ -46,10 +49,13 @@ public class CompraDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+                Timestamp ts = rs.getTimestamp("fechaCompra");
+                LocalDateTime fecha = (ts != null) ? ts.toLocalDateTime() : null;
                 historial.add(new HistorialCompra(
                         rs.getInt("idApp"),
                         rs.getInt("idUsuario"),
-                        rs.getDouble("precioPagado")
+                        rs.getDouble("precioPagado"),
+                        fecha
                 ));
             }
         } catch (SQLException e) {

@@ -8,6 +8,13 @@ public class HistorialCompra {
     private double precioPagado;
     private LocalDateTime fechaCompra;
 
+    public HistorialCompra(int idApp, int idUsuario, double precioPagado, LocalDateTime fechaCompra) {
+        this.idApp = idApp;
+        this.idUsuario = idUsuario;
+        this.precioPagado = precioPagado;
+        this.fechaCompra = fechaCompra;
+    }
+
     public HistorialCompra(int idApp, int idUsuario, double precioPagado) {
         this.idApp = idApp;
         this.idUsuario = idUsuario;

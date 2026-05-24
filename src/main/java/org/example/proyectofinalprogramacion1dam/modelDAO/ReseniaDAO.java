@@ -8,11 +8,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase DAO para la gestión de la persistencia de las valoraciones y opiniones de los usuarios.
+ */
 public class ReseniaDAO {
     private final static String SQL_ALL = "SELECT * FROM resenia";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM resenia WHERE id = ?";
-    private final static String SQL_FIND_BY_APP = "SELECT * FROM resenia WHERE id_aplicacion = ?";
-    private final static String SQL_INSERT = "INSERT INTO resenia (puntuacion, comentario, fechaResenia, id_aplicacion, id_usuario) VALUES (?, ?, ?, ?, ?)";
+    private final static String SQL_FIND_BY_APP = "SELECT * FROM resenia WHERE idApp = ?";
+    private final static String SQL_INSERT = "INSERT INTO resenia (puntuacion, comentario, fechaResenia, idApp, idUsuario) VALUES (?, ?, ?, ?, ?)";
     private final static String SQL_UPDATE = "UPDATE resenia SET puntuacion = ?, comentario = ? WHERE id = ?";
     private final static String SQL_DELETE = "DELETE FROM resenia WHERE id = ?";
 
@@ -29,8 +32,8 @@ public class ReseniaDAO {
                         rs.getInt("puntuacion"),
                         rs.getString("comentario"),
                         rs.getTimestamp("fechaResenia").toLocalDateTime(),
-                        rs.getInt("id_aplicacion"),
-                        rs.getInt("id_usuario")
+                        rs.getInt("idApp"),
+                        rs.getInt("idUsuario")
                 ));
             }
         } catch (SQLException e) {
@@ -55,8 +58,8 @@ public class ReseniaDAO {
                         rs.getInt("puntuacion"),
                         rs.getString("comentario"),
                         rs.getTimestamp("fechaResenia").toLocalDateTime(),
-                        rs.getInt("id_aplicacion"),
-                        rs.getInt("id_usuario")
+                        rs.getInt("idApp"),
+                        rs.getInt("idUsuario")
                 );
             }
         } catch (SQLException e) {
@@ -81,8 +84,8 @@ public class ReseniaDAO {
                         rs.getInt("puntuacion"),
                         rs.getString("comentario"),
                         rs.getTimestamp("fechaResenia").toLocalDateTime(),
-                        rs.getInt("id_aplicacion"),
-                        rs.getInt("id_usuario")
+                        rs.getInt("idApp"),
+                        rs.getInt("idUsuario")
                 ));
             }
         } catch (SQLException e) {
@@ -92,10 +95,11 @@ public class ReseniaDAO {
     }
 
     /**
-     * Inserta una nueva reseña en la base de datos[cite: 106].
+     * Inserta una reseña a la base de datps
+     * @param resenia Objeto reseña que se va a introducir
      */
-    public static boolean addResenia(Resenia resenia) {
-        if (resenia == null) return false;
+    public static void addResenia(Resenia resenia) {
+        if (resenia == null) return;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
             ps.setInt(1, resenia.getPuntuacion());
             ps.setString(2, resenia.getComentario());
@@ -104,7 +108,7 @@ public class ReseniaDAO {
             ps.setTimestamp(3, Timestamp.valueOf(fecha));
             ps.setInt(4, resenia.getIdApp());
             ps.setInt(5, resenia.getIdUsuario());
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -113,15 +117,14 @@ public class ReseniaDAO {
     /**
      * Actualiza el comentario o la puntuación de una reseña existente
      * @param resenia reseña que se va a cambair
-     * @return reseña actualizada
      */
-    public static boolean updateResenia(Resenia resenia) {
-        if (resenia == null || findById(resenia.getId()) == null) return false;
+    public static void updateResenia(Resenia resenia) {
+        if (resenia == null || findById(resenia.getId()) == null) return;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
             ps.setInt(1, resenia.getPuntuacion());
             ps.setString(2, resenia.getComentario());
             ps.setInt(3, resenia.getId());
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

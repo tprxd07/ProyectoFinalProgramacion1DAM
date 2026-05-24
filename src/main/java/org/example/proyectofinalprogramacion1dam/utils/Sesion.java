@@ -4,6 +4,9 @@ import javafx.stage.Stage;
 import org.example.proyectofinalprogramacion1dam.model.Aplicacion;
 import org.example.proyectofinalprogramacion1dam.model.Usuario;
 
+/**
+ * Se encarga de mantener la sesion del usuario abierta, para diferenciar a la hora de las descargas, perfiles y reseñas
+ */
 public class Sesion {
     private static Usuario usuarioActual;
     private static String mensajeInfo = "";
@@ -18,14 +21,11 @@ public class Sesion {
         return usuarioActual;
     }
 
+    //Cambia el mensaje de informacion segun la sesion, devuelve el mensaje
     public static String getMensajeInfo() {
         String msj = mensajeInfo;
         mensajeInfo = "";
         return msj;
-    }
-
-    public static void setMensajeInfo(String mensaje) {
-        mensajeInfo = mensaje;
     }
 
     public static Aplicacion getAppSeleccionada() {

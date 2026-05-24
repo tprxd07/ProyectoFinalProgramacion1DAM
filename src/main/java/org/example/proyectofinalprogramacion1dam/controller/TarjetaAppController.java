@@ -23,8 +23,12 @@ public class TarjetaAppController {
 
     private Aplicacion appActual;
 
+    /**
+     * Recibe los dato de la app y los coloca en forma de tarjeta interactiva
+     * @param app app de la que se escogeran los datos
+     */
     public void setDatos(Aplicacion app) {
-        this.appActual=app;
+        this.appActual = app;
         titulo.setText(app.getNombre());
         titulo.setWrapText(true);
         titulo.setMaxWidth(100);
@@ -32,18 +36,23 @@ public class TarjetaAppController {
 
         Usuario user = Sesion.getUsuarioActual();
 
-        if (BibliotecaDAO.usuarioTieneApp(user.getId(), app.getId())) {
-            precio.setText("En propiedad");
-            precio.getStyleClass().add("text-field");
-        }if (app.getPrecio() == 0) {
+        precio.getStyleClass().removeAll("label-gratis", "label-precio", "label-adquirido");
+
+        if (user != null && BibliotecaDAO.usuarioTieneApp(user.getId(), app.getId())) {
+            precio.setText("Adqui...");
+            precio.getStyleClass().add("label-adquirido");
+        }
+        else if (app.getPrecio() == 0) {
             precio.setText("Gratis");
             precio.getStyleClass().add("label-gratis");
-        } else {
-            precio.setText(app.getPrecio() + "€");
+        }
+        else {
+            precio.setText(String.format("%.2f€", app.getPrecio()));
             precio.getStyleClass().add("label-precio");
         }
     }
 
+    //Interactua y abre los detalles de la app seleccionada
     @FXML
     private void abrirDetalles() {
         if (appActual != null) {

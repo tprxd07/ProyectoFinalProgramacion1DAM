@@ -3,9 +3,9 @@ package org.example.proyectofinalprogramacion1dam.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import org.example.proyectofinalprogramacion1dam.model.Resenia; // Tu modelo real
+import org.example.proyectofinalprogramacion1dam.model.Resenia;
 import org.example.proyectofinalprogramacion1dam.model.Usuario;
-import org.example.proyectofinalprogramacion1dam.modelDAO.UsuarioDAO; // Para buscar el nickname
+import org.example.proyectofinalprogramacion1dam.modelDAO.UsuarioDAO;
 
 public class ReseniaController {
 
@@ -25,24 +25,19 @@ public class ReseniaController {
     public void setResenia(Resenia resenia, boolean esLaPropia, DetalleAppController padre) {
         this.padreController = padre;
 
-        //Buscamos el nombre del usuario en la base de datos usando su ID
         Usuario user = UsuarioDAO.findById(resenia.getIdUsuario());
         if (user != null) {
-            labelUsuario.setText("@" + user.getNombreUsuario());
+            labelUsuario.setText("@" + user.getNombre());
         } else {
             labelUsuario.setText("@Usuario_Desconocido");
         }
 
-        //Renderizado de las estrellas
-        //.repeat() genera una cadena repitiendo el símbolo tantas veces como diga la puntuación
         String estrellasRellenas = "★".repeat(resenia.getPuntuacion());
         String estrellasVacias = "☆".repeat(5 - resenia.getPuntuacion());
         puntuacion.setText(estrellasRellenas + estrellasVacias);
 
-        //Pasamos el comentario de la reseña al label largo
         comentario.setText(resenia.getComentario());
 
-        //Control de estados del boton de edicion
         if (esLaPropia) {
             botonEditar.setVisible(true);
             botonEditar.setManaged(true);

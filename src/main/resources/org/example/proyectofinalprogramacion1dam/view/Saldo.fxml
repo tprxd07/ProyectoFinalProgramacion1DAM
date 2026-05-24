@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -64,7 +63,7 @@
                   <Font size="20.0" />
                </font>
             </RadioButton>
-            <TextField fx:id="saldoPersonalizado" alignment="TOP_LEFT" disable="true" promptText=" Introduzca cantidad..." style="-fx-text-fill: grey;" styleClass="texto">
+            <TextField fx:id="saldoPersonalizado" alignment="TOP_LEFT" disable="true" promptText=" Introduzca cantidad..." style="-fx-text-fill: grey;">
                <padding>
                   <Insets top="10.0" />
                </padding>
@@ -77,44 +76,13 @@
             </TextField>
          </children>
       </HBox>
-      <Label fx:id="seguro" alignment="CENTER" styleClass="texto" text="¿Está seguro/a?" visible="false">
-         <font>
-            <Font size="15.0" />
-         </font>
-         <VBox.margin>
-            <Insets left="123.0" />
-         </VBox.margin></Label>
       <Button fx:id="confirmar" mnemonicParsing="false" onAction="#accionarConfirmar" prefHeight="50.0" prefWidth="120.0" styleClass="boton-basico" text="Confirmar">
          <font>
             <Font size="20.0" />
          </font>
          <VBox.margin>
-            <Insets left="115.0" top="10.0" />
+            <Insets bottom="10.0" left="115.0" top="10.0" />
          </VBox.margin>
       </Button>
-      <HBox fx:id="contenedorConfirmacion" prefHeight="100.0" prefWidth="200.0" visible="false">
-         <children>
-            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmarSi" prefWidth="60.0" style="-fx-border-color:hover: green;" styleClass="boton-basico" text="Sí">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="70.0" />
-               </HBox.margin>
-            </Button>
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmarNo" prefWidth="60.0" style="-fx-border-color:hover: red;" styleClass="boton-basico" text="No">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="70.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </HBox>
    </children>
 </VBox>

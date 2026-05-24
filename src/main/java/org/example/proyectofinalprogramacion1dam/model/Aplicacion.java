@@ -5,29 +5,34 @@ public class Aplicacion {
     private String nombre;
     private String descripcion;
     private double precio;
-    private String version;
     private int descargas;
     private Categoria categoria;
     private int idDesarrollador;
     private String imagen;
 
-    public Aplicacion(int id, String nombre, String descripcion, double precio, String version, int descargas, Categoria categoria, int idDesarrollador, String imagen) {
+    /**
+     * Constructor completo, necesario para insertar/recibir datos de la BBDD
+     */
+    public Aplicacion(int id, String nombre, String descripcion, double precio, int descargas, Categoria categoria, int idDesarrollador, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.version = version;
         this.descargas = descargas;
         this.categoria = categoria;
         this.idDesarrollador = idDesarrollador;
         this.imagen = imagen;
     }
 
-    public Aplicacion(String nombre, String descripcion, double precio, String version, Categoria categoria, int idDesarrollador, String imagen) {
+    /**
+     * Constructor sin los datos que el usuario no va a poder cambiar de forma manual
+     * El id se recibe de la BBDD
+     * Las descargas se aumenta automaticamente
+     */
+    public Aplicacion(String nombre, String descripcion, double precio, Categoria categoria, int idDesarrollador, String imagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.version = version;
         this.categoria = categoria;
         this.idDesarrollador = idDesarrollador;
         this.imagen = imagen;
@@ -63,14 +68,6 @@ public class Aplicacion {
 
     public void setPrecio(double precio) {
         this.precio = precio;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public int getDescargas() {
@@ -112,7 +109,6 @@ public class Aplicacion {
                 ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", precio=" + precio +
-                ", version='" + version + '\'' +
                 ", descargas=" + descargas +
                 ", categoria=" + categoria +
                 ", idDesarrollador=" + idDesarrollador +

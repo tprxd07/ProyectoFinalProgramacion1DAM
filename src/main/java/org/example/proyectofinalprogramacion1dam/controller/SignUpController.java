@@ -2,7 +2,7 @@ package org.example.proyectofinalprogramacion1dam.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-
+//Esta clase tiene los datos paara registrar un usuario
 public class SignUpController {
     @FXML
     private TextField textoUsuario;

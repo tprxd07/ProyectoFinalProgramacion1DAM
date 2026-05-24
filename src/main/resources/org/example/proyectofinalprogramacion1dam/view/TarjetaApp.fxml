@@ -18,7 +18,7 @@
          <children>
             <Label fx:id="titulo" styleClass="texto" text="Label" HBox.hgrow="SOMETIMES" />
             <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="precio" alignment="CENTER_RIGHT" text="Label" HBox.hgrow="NEVER">
+            <Label fx:id="precio" alignment="CENTER" prefWidth="60.0" text="Label" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

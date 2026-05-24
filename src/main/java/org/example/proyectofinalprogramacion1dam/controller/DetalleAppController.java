@@ -1,5 +1,6 @@
 package org.example.proyectofinalprogramacion1dam.controller;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -7,16 +8,22 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.example.proyectofinalprogramacion1dam.model.*;
-import org.example.proyectofinalprogramacion1dam.modelDAO.*; // Importa todos tus DAOs reales
+import org.example.proyectofinalprogramacion1dam.modelDAO.*;
 import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
 import org.example.proyectofinalprogramacion1dam.utils.Sesion;
-import org.example.proyectofinalprogramacion1dam.utils.Util; //
+import org.example.proyectofinalprogramacion1dam.utils.Util;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
+/**
+ * Controlador del .fxml de detalles, al que se accese al pulsar en una aplicacion
+ */
 public class DetalleAppController implements Initializable {
 
     @FXML private ImageView portada;
@@ -26,61 +33,51 @@ public class DetalleAppController implements Initializable {
     @FXML private Label descripcion;
     @FXML private Button botonAdquirir;
 
-    //Grupo estrellas puntuacion
     @FXML private ToggleButton star1;
     @FXML private ToggleButton star2;
     @FXML private ToggleButton star3;
     @FXML private ToggleButton star4;
     @FXML private ToggleButton star5;
 
-    //Apartado de crear reseña
     @FXML private VBox nuevaResenia;
+    @FXML private Label tituloResenia;
     @FXML private TextArea comentario;
     @FXML private Button confirmarResenia;
 
+    @FXML private ComboBox<String> cbFiltroResenias;
     @FXML private VBox contenedorResenia;
 
     private List<ToggleButton> puntuacionEstrellas;
     private int puntuacionSeleccionada = 0;
     private Aplicacion appActual;
-    //Devuelve la reseña que el usuario tenga para esta app.
-    //Se inicia null para que aparezca el apartado de crear y no el de modificar
     private Resenia reseniaPropia = null;
     private boolean modoEdicion = false;
-    Usuario usuario = Sesion.getUsuarioActual();
-    
+    private Usuario usuario = Sesion.getUsuarioActual();
+
     /**
-     * Rellena los campos de informacion de la app
+     * Carga toda la informacion de una app en el .fxml, recogiendo lso datos de la BBDD
      */
     private void cargarInfoApp() {
         nombre.setText(appActual.getNombre());
         descargas.setText("Descargas: " + appActual.getDescargas());
         desarrollador.setText(DesarrolladorDAO.findById(appActual.getIdDesarrollador()).getNombre());
 
-        //Gestion del boton para descargar
         int idUsuarioLogeado = Sesion.getUsuarioActual().getId();
 
-        //Si el usuario ya la tiene en su biblioteca
         if (BibliotecaDAO.usuarioTieneApp(idUsuarioLogeado, appActual.getId())) {
             botonAdquirir.setText("Adquirido");
             botonAdquirir.setDisable(true);
-        }
-        //Si es una aplicación gratuita
-        else if (appActual.getPrecio() == 0) {
+        } else if (appActual.getPrecio() == 0) {
             botonAdquirir.setText("Gratis");
             botonAdquirir.setDisable(false);
-        }
-        //Si es una aplicación de pago
-        else {
+        } else {
             botonAdquirir.setText(String.format("%.2f €", appActual.getPrecio()));
             botonAdquirir.setDisable(false);
         }
 
-        //Si es videojuego, añade el dato de multijugador en la categoria
         String descCompleta = appActual.getDescripcion();
         Videojuego vj = VideojuegoDAO.findById(appActual.getId());
 
-        //Solo si se encuentra en la tabla de la base de datos se añade
         if (vj != null) {
             if (vj.isMultijugador()) {
                 descCompleta = descCompleta + "\n\nMultijugador";
@@ -90,94 +87,142 @@ public class DetalleAppController implements Initializable {
         }
 
         descripcion.setText(descCompleta);
-        descripcion.setText(descCompleta);
         portada.setImage(Util.cargarImagen(appActual.getImagen()));
     }
 
     /**
-     * Gestiona las compras y descargas al pulsar el boton
+     * Gestiona las compras y descargas al pulsar el botón con alerta de confirmación
      */
     @FXML
     private void accionarBotonPrincipal() {
         if (botonAdquirir.isDisable()) return;
         double precio = appActual.getPrecio();
+        Alert alertaConfirmar = getAlert(precio);
 
-        //Si es gratis
+        ButtonType botonSi = new ButtonType("Sí", ButtonBar.ButtonData.YES);
+        ButtonType botonNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+        alertaConfirmar.getButtonTypes().setAll(botonSi, botonNo);
+
+        java.util.Optional<ButtonType> resultado = alertaConfirmar.showAndWait();
+
+        if (resultado.isEmpty() || resultado.get() == botonNo) {
+            return;
+        }
+
+        //Procesa la adquisición
         if (precio == 0) {
+            //Caso aplicación gratuita
             boolean exito = BibliotecaDAO.adquirirApp(usuario, appActual);
             if (exito) {
-                Util.reproducirSonido("descarga.mp3"); //TODO sonido descarga
-                cambiarAAdquirido();
-                appActual.setDescargas(appActual.getDescargas() + 1);
-                descargas.setText("Descargas: " + (appActual.getDescargas()));
-            } else {
-                System.err.println("Error al descargar");
-            }
-        //Si tiene precio
-        } else {
-            if (usuario.getSaldo() >= precio) {
-                usuario.setSaldo(usuario.getSaldo() - precio);
-                //Cambia el saldo del usuario en la BBDD
-                UsuarioDAO.updateUsuario(usuario);
-                //Registrar en el historial de compras
-                HistorialCompra hc = new HistorialCompra(appActual.getId(), usuario.getId(), precio);
-                CompraDAO.registrarCompra(hc);
-                //Añadir a la biblioteca del usuario
-                BibliotecaDAO.adquirirApp(usuario, appActual);
-
-                //Actualizar el saldo
-                try {
-                    TiendaPrincipalController.getInstance().actualizarSaldo();
-                } catch (Exception e) {
-                    System.out.println("No se pudo actualizar el saldo");
-                }
-
                 Util.reproducirSonido("descarga.mp3");
                 cambiarAAdquirido();
                 appActual.setDescargas(appActual.getDescargas() + 1);
                 descargas.setText("Descargas: " + (appActual.getDescargas()));
+
+                if (TiendaPrincipalController.getInstance() != null) {
+                    TiendaPrincipalController.getInstance().generarTienda();
+                }
+            }
+        } else {
+            //Caso aplicación de pago
+            if (usuario.getSaldo() >= precio) {
+
+                usuario.setSaldo(usuario.getSaldo() - precio);
+                UsuarioDAO.updateUsuario(usuario);
+                Sesion.setUsuarioActual(usuario);
+
+                boolean exitoAdquisicion = BibliotecaDAO.adquirirApp(usuario, appActual);
+
+                if (exitoAdquisicion) {
+                    //Actualiza el boton y las descargas
+                    cambiarAAdquirido();
+                    appActual.setDescargas(appActual.getDescargas() + 1);
+                    descargas.setText("Descargas: " + (appActual.getDescargas()));
+
+                    //
+                    if (TiendaPrincipalController.getInstance() != null) {
+                        try {
+                            TiendaPrincipalController.getInstance().actualizarSaldo();
+                        } catch (Exception e) {
+                            System.out.println("No se pudo actualizar el saldo visual");
+                        }
+                        TiendaPrincipalController.getInstance().generarTienda();
+                    }
+
+                    Util.reproducirSonido("descarga.mp3");
+                    comprobarYRenderizarResenias();
+                } else {
+                    System.err.println("Error: No se pudo procesar la transacción en la biblioteca.");
+                }
+
             } else {
-                // Mensaje controlado si no tiene suficiente saldo
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Saldo Insuficiente");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No dispones de saldo suficiente para adquirir este producto.\nPor favor, recarga tu monedero.");
-                alerta.showAndWait();
+                Alert alertaError = new Alert(Alert.AlertType.ERROR);
+                alertaError.setTitle("Saldo Insuficiente");
+                alertaError.setHeaderText(null);
+                alertaError.setContentText("No dispones de saldo suficiente para adquirir este producto.\nPor favor, recarga tu monedero.");
+                alertaError.showAndWait();
             }
         }
     }
 
+    /**
+     * Crea una alerta al comprar una aplicacion
+     * Si es gratis, cambia el mensaje
+     */
+    private Alert getAlert(double precio) {
+        Alert alertaConfirmar = new Alert(Alert.AlertType.CONFIRMATION);
+        alertaConfirmar.setTitle("Confirmar adquisición");
+        alertaConfirmar.setHeaderText(null);
+
+        if (precio == 0) {
+            alertaConfirmar.setContentText("¿Estás seguro de que quieres descargar gratis \"" + appActual.getNombre() + "\"?");
+        } else {
+            alertaConfirmar.setContentText(String.format("¿Estás seguro de que quieres comprar \"%s\" por %.2f €?", appActual.getNombre(), precio));
+        }
+        return alertaConfirmar;
+    }
+
+    //Cambia el texto de precio/gratis a adquirido
     private void cambiarAAdquirido() {
         botonAdquirir.setText("Adquirido");
         botonAdquirir.setDisable(true);
     }
 
+    //valida la reseña para poder enviarla
     private void validarFormulario() {
         boolean textoValido = !comentario.getText().trim().isEmpty();
         boolean estrellasValidas = puntuacionSeleccionada > 0;
         confirmarResenia.setDisable(!(textoValido && estrellasValidas));
     }
 
+    /**
+     * Actualiza la puntuacion de las 5 estrellas segun a las que le des click, dejando unas llenas y otras vacias
+     * @param puntuacion Puntuacion del 1 al 5
+     */
     private void actualizarEstrellasVisuales(int puntuacion) {
         for (int i = 0; i < puntuacionEstrellas.size(); i++) {
             ToggleButton estrella = puntuacionEstrellas.get(i);
             if (i < puntuacion) {
                 estrella.setSelected(true);
                 estrella.setText("★");
-                estrella.setStyle("-fx-text-fill: textWhite");
             } else {
                 estrella.setSelected(false);
                 estrella.setText("☆");
-                estrella.setStyle("-fx-text-fill: lightGrey");
             }
         }
     }
 
+    /**
+     * Carga todas las reseñas que tenga la aplicacion elegida. SI esta la del usuario, en vezd e poder crear una reseña,
+     * el usuario podrá modificar su reseña ya creada.
+     * Además, se pueden ordenar las resñas por tiempo de envio o puntuacion
+     */
     private void comprobarYRenderizarResenias() {
-        //limpiar contenedor de reseñas para evitar duplicados
         contenedorResenia.getChildren().clear();
-        reseniaPropia = ReseniaDAO.findAll().stream()
-                .filter(r -> r.getIdUsuario() == usuario.getId() && r.getIdApp() == appActual.getId())
+        List<Resenia> opinionesApp = ReseniaDAO.findByApp(appActual.getId());
+
+        reseniaPropia = opinionesApp.stream()
+                .filter(r -> r.getIdUsuario() == usuario.getId())
                 .findFirst()
                 .orElse(null);
 
@@ -186,32 +231,44 @@ public class DetalleAppController implements Initializable {
             nuevaResenia.setManaged(false);
 
             Node tarjetaPropia = SceneManager.cargarResenia(reseniaPropia, true, this);
-            contenedorResenia.getChildren().add(tarjetaPropia);
+            if (tarjetaPropia != null) {
+                contenedorResenia.getChildren().add(tarjetaPropia);
+            }
         } else {
             nuevaResenia.setVisible(true);
             nuevaResenia.setManaged(true);
 
-            if(modoEdicion && reseniaPropia != null) {
+            if (modoEdicion && reseniaPropia != null) {
                 comentario.setText(reseniaPropia.getComentario());
                 puntuacionSeleccionada = reseniaPropia.getPuntuacion();
                 actualizarEstrellasVisuales(puntuacionSeleccionada);
                 confirmarResenia.setText("Guardar Cambios");
+                tituloResenia.setText("Editando tu reseña");
             } else {
                 puntuacionSeleccionada = 5;
                 actualizarEstrellasVisuales(5);
                 confirmarResenia.setText("Confirmar");
+                tituloResenia.setText("Valora esta aplicación");
             }
         }
 
-        // Renderiza el resto de las opiniones de la app desde la Base de Datos
-        List<Resenia> todasLasResenias = ReseniaDAO.findAll().stream()
-                .filter(r -> r.getIdApp() == appActual.getId())
-                .toList();
+        List<Resenia> restoOpiniones = opinionesApp.stream()
+                .filter(r -> reseniaPropia == null || r.getId() != reseniaPropia.getId())
+                .collect(Collectors.toList());
 
-        for (Resenia r : todasLasResenias) {
-            if (reseniaPropia != null && r.getId() == reseniaPropia.getId()) {
-                continue; // Evita duplicar tu propia reseña en la zona general
-            }
+        String filtro = cbFiltroResenias != null ? cbFiltroResenias.getValue() : "Más recientes";
+
+        if ("Mejor puntuación".equals(filtro)) {
+            restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getPuntuacion(), r1.getPuntuacion()));
+        } else if ("Menor puntuación".equals(filtro)) {
+            restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getPuntuacion(), r2.getPuntuacion()));
+        } else if ("Más antiguas".equals(filtro)) {
+            restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getId(), r2.getId()));
+        } else {
+            restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getId(), r1.getId()));
+        }
+
+        for (Resenia r : restoOpiniones) {
             Node tarjetaResto = SceneManager.cargarResenia(r, false, null);
             if (tarjetaResto != null) {
                 contenedorResenia.getChildren().add(tarjetaResto);
@@ -219,61 +276,67 @@ public class DetalleAppController implements Initializable {
         }
     }
 
+    @FXML
+    private void filtrarResenias() {
+        comprobarYRenderizarResenias();
+    }
+
+    //Abre la posibilidad a editar una reseña ya creada
     public void activarModoEdicion() {
         this.modoEdicion = true;
         comprobarYRenderizarResenias();
     }
 
+    /**
+     * Envia el comentario y puntuación añadidos a la BBDD para que se pueda mostrar en la app
+     */
     @FXML
     private void enviarFormularioResenia() {
-        String comentario = this.comentario.getText().trim();
+        String textoComentario = this.comentario.getText().trim();
         int puntos = puntuacionSeleccionada;
 
         if (modoEdicion && reseniaPropia != null) {
-            reseniaPropia.setComentario(comentario);
+            reseniaPropia.setComentario(textoComentario);
             reseniaPropia.setPuntuacion(puntos);
-            ReseniaDAO.updateResenia(reseniaPropia); // Llama a tu método real de actualización
+            ReseniaDAO.updateResenia(reseniaPropia);
             modoEdicion = false;
         } else {
             Resenia nueva = new Resenia();
             nueva.setIdApp(appActual.getId());
-            nueva.setIdUsuario(Sesion.getUsuarioActual().getId()); //
+            nueva.setIdUsuario(usuario.getId());
             nueva.setPuntuacion(puntos);
-            nueva.setComentario(comentario);
-            ReseniaDAO.addResenia(nueva); // Llama a tu método real de inserción
+            nueva.setComentario(textoComentario);
+            nueva.setFechaResenia(LocalDateTime.now());
+            ReseniaDAO.addResenia(nueva);
         }
 
         this.comentario.clear();
         comprobarYRenderizarResenias();
     }
 
+    //Vuelve a la tienda principal y la recarga
     @FXML
     private void volverAtras() {
-        try {
-            TiendaPrincipalController tienda = TiendaPrincipalController.getInstance();
-            tienda.generarTienda();
-        } catch (Exception e) {
-            System.err.println("Error al regresar a la tienda principal.");
-            e.printStackTrace();
+        SceneManager.cambiarEscena(portada.getScene(), "TiendaPrincipal.fxml");
+        if (TiendaPrincipalController.getInstance() != null) {
+            TiendaPrincipalController.getInstance().generarTienda();
         }
     }
 
+    //Carga los CbBox de las estrellas y el filtro de reseñas para que muestren uno por defecto
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // 1. Obtener la app de tu sesión global
         this.appActual = Sesion.getAppSeleccionada();
-
-        if (appActual == null) {
-            System.err.println("Error: No hay ninguna aplicación seleccionada en la sesión.");
-            return;
+        if (appActual == null) return;
+        if (cbFiltroResenias != null) {
+            cbFiltroResenias.setItems(FXCollections.observableArrayList(
+                    "Más recientes", "Más antiguas", "Mejor puntuación", "Menor puntuación"
+            ));
+            cbFiltroResenias.setValue("Más recientes");
         }
-
-        // 2. Inicializar componentes de las estrellas
         puntuacionEstrellas = Arrays.asList(star1, star2, star3, star4, star5);
         confirmarResenia.setDisable(true);
-
         comentario.textProperty().addListener((observable, oldValue, newValue) -> validarFormulario());
-
         for (int i = 0; i < puntuacionEstrellas.size(); i++) {
             final int indiceActual = i + 1;
             ToggleButton botonEstrella = puntuacionEstrellas.get(i);
@@ -284,7 +347,6 @@ public class DetalleAppController implements Initializable {
             });
         }
 
-        // 3. Cargar la interfaz con tus DAOs reales
         cargarInfoApp();
         comprobarYRenderizarResenias();
     }

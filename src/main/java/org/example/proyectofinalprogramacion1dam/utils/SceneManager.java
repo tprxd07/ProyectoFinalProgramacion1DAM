@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -14,7 +15,9 @@ import org.example.proyectofinalprogramacion1dam.model.Resenia;
 
 import java.io.IOException;
 
-
+/**
+ * Se encarga de manejar cambios relacionados con los .fxml, como ventanas y escenas
+ */
 public class SceneManager {
 
     private static final String RUTA = "/org/example/proyectofinalprogramacion1dam/view/";
@@ -45,6 +48,19 @@ public class SceneManager {
             TarjetaAppController controller = loader.getController();
             controller.setDatos(app);
 
+            org.example.proyectofinalprogramacion1dam.model.Usuario usuarioActual = Sesion.getUsuarioActual();
+            if (usuarioActual != null) {
+                boolean yaLaTiene = org.example.proyectofinalprogramacion1dam.modelDAO.BibliotecaDAO.usuarioTieneApp(usuarioActual.getId(), app.getId());
+
+                if (yaLaTiene) {
+                   Button btnPrecio = (Button) tarjeta.lookup("#botonPrecio");
+                    if (btnPrecio != null) {
+                        btnPrecio.setText("Adquirido");
+                        btnPrecio.setDisable(true);
+                    }
+                }
+            }
+
             return tarjeta;
         } catch (IOException e) {
             System.err.println("Error al cargar la tarjeta: " + e.getMessage());
@@ -52,14 +68,27 @@ public class SceneManager {
         }
     }
 
-    public static Node cargarResenia(Resenia reseniaa, boolean esLaPropia, DetalleAppController padre) {
-        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(RUTA+"Resenia.fxml"));
-        if (loader == null) return null;
+    /**
+     * Carga las reseñas creadas de forma visual para que se muestren en los detalles de una app
+     * @param resenia Objeto reseña
+     * @param esLaPropia Confirma si la reseña es del usuario
+     * @param padre Recibe el controlador de detalles, para diferenciarse entre diferentes apps
+     * @return
+     */
+    public static Node cargarResenia(Resenia resenia, boolean esLaPropia, DetalleAppController padre) {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(RUTA + "Resenia.fxml"));
+            Node tarjeta = loader.load();
+            org.example.proyectofinalprogramacion1dam.controller.ReseniaController controller = loader.getController();
 
-        org.example.proyectofinalprogramacion1dam.controller.ReseniaController controller = loader.getController();
-        controller.setResenia(reseniaa, esLaPropia, padre);
-
-        return loader.getRoot();
+            if (controller != null) {
+                controller.setResenia(resenia, esLaPropia, padre);
+            }
+            return tarjeta;
+        } catch (IOException e) {
+            System.err.println("Error al cargar la tarjeta de reseña de forma dinámica: " + e.getMessage());
+            return null;
+        }
     }
     /**
      * Inyecta un FXML dentro de un contenedor (Pane o derivados).
@@ -140,7 +169,7 @@ public class SceneManager {
      * @param modal Si es true, bloquea la ventana principal hasta que se cierre esta
      * @return El controlador de la nueva ventana
      */
-    public static Object abrirVentana(String fxmlFileName, String titulo, boolean modal) {
+    public static Stage abrirVentana(String fxmlFileName, String titulo, boolean modal) {
         try {
             String ruta = "/org/example/proyectofinalprogramacion1dam/view/" + fxmlFileName;
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(ruta));
@@ -149,16 +178,19 @@ public class SceneManager {
             Stage newStage = new Stage();
             newStage.setTitle(titulo);
             newStage.setScene(new Scene(root));
+            newStage.setResizable(false);
 
             if (modal) {
                 newStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             }
 
+            newStage.setUserData(loader.getController());
             newStage.show();
-            return loader.getController();
+            return newStage;
 
         } catch (IOException e) {
             System.err.println("Error al abrir la ventana: " + fxmlFileName);
+            e.printStackTrace();
             return null;
         }
     }

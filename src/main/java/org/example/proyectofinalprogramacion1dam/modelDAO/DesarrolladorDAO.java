@@ -9,12 +9,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase DAO que gestiona los desarrolladores existentes en la base de datos
+ */
 public class DesarrolladorDAO {
     private final static String SQL_ALL = "SELECT * FROM desarrollador";
     private final static String SQL_FIND_BY_ID = "SELECT * FROM desarrollador WHERE id = ?";
     private final static String SQL_FIND_BY_NOMBRE = "SELECT * FROM desarrollador WHERE nombre = ?";
-    private final static String SQL_INSERT = "INSERT INTO desarrollador (nombre, pais, webOficial) VALUES (?, ?, ?)";
-    private final static String SQL_UPDATE = "UPDATE desarrollador SET nombre = ?, pais = ?, webOficial = ? WHERE id = ?";
+    private final static String SQL_INSERT = "INSERT INTO desarrollador (nombre, pais) VALUES (?, ?)";
+    private final static String SQL_UPDATE = "UPDATE desarrollador SET nombre = ?, pais = ? WHERE id = ?";
     private final static String SQL_DELETE = "DELETE FROM desarrollador WHERE id = ?";
 
     /**
@@ -28,8 +31,7 @@ public class DesarrolladorDAO {
                 desarrolladores.add(new Desarrollador(
                         rs.getInt("id"),
                         rs.getString("nombre"),
-                        rs.getString("pais"),
-                        rs.getString("webOficial")
+                        rs.getString("pais")
                 ));
             }
         } catch (SQLException e) {
@@ -52,8 +54,7 @@ public class DesarrolladorDAO {
                 desarrollador = new Desarrollador(
                         rs.getInt("id"),
                         rs.getString("nombre"),
-                        rs.getString("pais"),
-                        rs.getString("webOficial")
+                        rs.getString("pais")
                 );
             }
         } catch (SQLException e) {
@@ -65,7 +66,7 @@ public class DesarrolladorDAO {
     /**
      * Busca un desarrollador por su nombre.
      * @param nombre nombre del desarrollador
-     * @return El objeto Desarrollador o null si no existe.
+     * @return El objeto desarrollador o null si no existe.
      */
     public static Desarrollador findByNombre(String nombre) {
         Desarrollador desarrollador = null;
@@ -76,8 +77,7 @@ public class DesarrolladorDAO {
                 desarrollador = new Desarrollador(
                         rs.getInt("id"),
                         rs.getString("nombre"),
-                        rs.getString("pais"),
-                        rs.getString("webOficial")
+                        rs.getString("pais")
                 );
             }
         } catch (SQLException e) {
@@ -88,17 +88,16 @@ public class DesarrolladorDAO {
 
     /**
      * Registra un nuevo desarrollador en la base de datos.
-     * @param dev Objeto desarrollador con los datos.
+     * @param des Objeto desarrollador con los datos.
      * @return true si se ha insertado correctamente.
      */
-    public static boolean addDesarrollador(Desarrollador dev) {
-        if (dev == null || findByNombre(dev.getNombre()) != null) {
+    public static boolean addDesarrollador(Desarrollador des) {
+        if (des == null || findByNombre(des.getNombre()) != null) {
             return false;
         }
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
-            ps.setString(1, dev.getNombre());
-            ps.setString(2, dev.getPais());
-            ps.setString(3, dev.getWebOficial());
+            ps.setString(1, des.getNombre());
+            ps.setString(2, des.getPais());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error al añadir desarrollador: " + e.getMessage());
@@ -107,18 +106,17 @@ public class DesarrolladorDAO {
 
     /**
      * Actualiza los datos de un desarrollador
-     * @param dev Objeto con los datos actualizados
-     * @return true si se actualizo correctamente
+     * @param des Objeto con los datos actualizados
+     * @return true si se actualizó correctamente
      */
-    public static boolean updateDesarrollador(Desarrollador dev) {
-        if (dev == null || findById(dev.getId()) == null) {
+    public static boolean updateDesarrollador(Desarrollador des) {
+        if (des == null || findById(des.getId()) == null) {
             return false;
         }
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
-            ps.setString(1, dev.getNombre());
-            ps.setString(2, dev.getPais());
-            ps.setString(3, dev.getWebOficial());
-            ps.setInt(4, dev.getId());
+            ps.setString(1, des.getNombre());
+            ps.setString(2, des.getPais());
+            ps.setInt(4, des.getId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error al actualizar desarrollador: " + e.getMessage());
@@ -127,8 +125,8 @@ public class DesarrolladorDAO {
 
     /**
      * Elimina un desarrollador de la base de datos.
-     * @param id ID del desarrollador a borrar.
-     * @return true si se borró correctamente. [cite: 106]
+     * @param id ID del desarrollador a borrar
+     * @return true si se borró correctamente
      */
     public static boolean deleteDesarrollador(int id) {
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {

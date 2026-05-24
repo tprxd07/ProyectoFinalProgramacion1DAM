@@ -11,8 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.proyectofinalprogramacion1dam.model.Aplicacion;
 import org.example.proyectofinalprogramacion1dam.model.Categoria;
+import org.example.proyectofinalprogramacion1dam.model.Desarrollador;
 import org.example.proyectofinalprogramacion1dam.model.Usuario;
 import org.example.proyectofinalprogramacion1dam.modelDAO.AplicacionDAO;
+import org.example.proyectofinalprogramacion1dam.modelDAO.DesarrolladorDAO;
 import org.example.proyectofinalprogramacion1dam.modelDAO.UtilidadDAO;
 import org.example.proyectofinalprogramacion1dam.modelDAO.VideojuegoDAO;
 import org.example.proyectofinalprogramacion1dam.utils.SceneManager;
@@ -39,17 +41,11 @@ public class TiendaPrincipalController implements Initializable {
     private Button botonJuegos;
 
     @FXML
-    private Button botonCrear;
+    private Button botonModificar;
 
     @FXML
     private TextField busqueda;
 
-    @FXML
-    private HBox menuArriba;
-    @FXML
-    private Button flechaBusqueda;
-
-    private ContextMenu menuBusqueda;
     @FXML
     private RadioMenuItem rbAZ, rbZA;
 
@@ -80,6 +76,7 @@ public class TiendaPrincipalController implements Initializable {
         return this.tiendaPrincipal;
     }
 
+    //Actualiza el css del menu lateral segun el que se haya elegido
     private void actualizarEstadoMenu(Button botonPulsado) {
         for (Button b : botonesNav) {
             b.getStyleClass().remove("nav-button-active");
@@ -89,15 +86,12 @@ public class TiendaPrincipalController implements Initializable {
         botonPulsado.setViewOrder(-1.0);
     }
 
+    //Cambia el menú elegido para filtrar las apps
     @FXML
     private void menuElegido(ActionEvent event) {
         Button botonPulsado = (Button) event.getSource();
         actualizarEstadoMenu(botonPulsado);
         switch (botonPulsado.getId()) {
-            case "botonInicio":
-                vistaActual = "Inicio";
-                break;
-
             case "botonJuegos":
                 vistaActual = "Juegos";
                 break;
@@ -116,21 +110,20 @@ public class TiendaPrincipalController implements Initializable {
         generarTienda();
     }
 
+    //Abre y cierra el menu de ajustes de forma animada
     public void menuAjustes() {
         ajustesAbierto=!ajustesAbierto;
         if (ajustesAbierto){
             Util.animarAncho(panelAjustes, 150, 300);
             Util.girar(imagenEngranaje, 0, 300);
-            Util.animarAlto(menuArriba, panelAjustes.getHeight(), 300);
-            System.out.println(panelAjustes.getHeight());
         }else{
             Util.animarAncho(panelAjustes, 0, 300);
             Util.girar(imagenEngranaje, 180, 300);
-            Util.animarAlto(menuArriba, 100, 300);
         }
         actualizarSaldo();
     }
 
+    //Genera la tienda segun los datos de las tarjetas y su categoria
     public void generarTienda() {
         //Se limpia el contenedor para evitar duplicados
         filasMain.getChildren().clear();
@@ -145,24 +138,31 @@ public class TiendaPrincipalController implements Initializable {
             listaApps = AplicacionDAO.findAll();
         }
 
-        List<Aplicacion> listaFinal = getAplicaciones(listaApps);
+        List<Aplicacion> listaFinal = obtenerAppsFiltradas(listaApps);
+
+        //Capturamos el texto de busqueda para saber si el usuario está filtrando
+        String textoBusqueda = busqueda.getText().trim();
 
         //Las secciones se crean por cada nombre de categoria
         for (Categoria cat : Categoria.values()) {
             if (vistaActual.equals("Juegos")) {
-                // Solo permitimos categorías de videojuegos
                 if (cat != Categoria.MMO && cat != Categoria.Shooter &&
                         cat != Categoria.Indie && cat != Categoria.Aventura) continue;
             }
             else if (vistaActual.equals("Apps")) {
-                // Solo permitimos categorías de utilidades
                 if (cat != Categoria.Salud && cat != Categoria.Finanzas &&
                         cat != Categoria.Ocio) continue;
             }
+
             //Filtramos las apps que pertenecen a esta categoria especifica
             List<Aplicacion> filtradas = listaFinal.stream()
                     .filter(a -> a.getCategoria() == cat)
                     .toList();
+
+            //Si el usuario está buscando y esta categoría no teine app con este nombre, no se crea la fila
+            if (filtradas.isEmpty() && !textoBusqueda.isEmpty()) {
+                continue;
+            }
 
             VBox seccionCategoria = new VBox(10);
 
@@ -171,6 +171,7 @@ public class TiendaPrincipalController implements Initializable {
             lbTitulo.setPadding(new Insets(0, 0, 0, 10));
             seccionCategoria.getChildren().add(lbTitulo);
 
+            //Si está vacía pero no estamos buscando, se crea la fila y se muestra ek mensaje
             if (filtradas.isEmpty()) {
                 Label noHayApps = new Label("Aun no hay aplicaciones disponibles en esta categoría.");
                 noHayApps.getStyleClass().add("texto-cursivo");
@@ -183,35 +184,80 @@ public class TiendaPrincipalController implements Initializable {
                 for (Aplicacion app : filtradas) {
                     Node tarjeta = SceneManager.cargarTarjeta(app);
                     if (tarjeta != null) {
+                        tarjeta.setOnMouseClicked(e -> {
+                            Sesion.setAppSeleccionada(app);
+                            SceneManager.inyectarEscena(tiendaPrincipal, "DetalleApp.fxml");
+                        });
                         hboxCarrusel.getChildren().add(tarjeta);
                     }
                 }
-                    //Scrollpane para que se pueda mover lateralmente
-                    ScrollPane scrollHorizontal = new ScrollPane(hboxCarrusel);
-                    scrollHorizontal.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-                    scrollHorizontal.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                    scrollHorizontal.setPannable(true);
-                    scrollHorizontal.setFitToHeight(true);
-                    scrollHorizontal.setMinHeight(235);
-                    scrollHorizontal.setPrefHeight(235);
-                    seccionCategoria.getChildren().add(scrollHorizontal);
-                }
-            //Se añade la sección completa
+
+                ScrollPane scrollHorizontal = new ScrollPane(hboxCarrusel);
+                scrollHorizontal.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+                scrollHorizontal.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollHorizontal.setPannable(true);
+                scrollHorizontal.setFitToHeight(true);
+                scrollHorizontal.setMinHeight(235);
+                scrollHorizontal.setPrefHeight(235);
+                seccionCategoria.getChildren().add(scrollHorizontal);
+            }
             filasMain.getChildren().add(seccionCategoria);
+        }
+        if (filasMain.getChildren().isEmpty() && !textoBusqueda.isEmpty()) {
+            VBox panelNoResultados = new VBox(15);
+            panelNoResultados.setPadding(new Insets(50, 0, 0, 20));
+            panelNoResultados.setAlignment(javafx.geometry.Pos.CENTER);
+
+            Label aviso = new Label("No se han encontrado resultados para: \"" + textoBusqueda + "\"");
+            aviso.getStyleClass().add("titulo");
+
+            panelNoResultados.getChildren().addAll(aviso);
+            filasMain.getChildren().add(panelNoResultados);
         }
     }
 
-    private List<Aplicacion> getAplicaciones(List<Aplicacion> listaApps) {
+    /**
+     * Filtra las apps por nombre del desarrollador o aplicacion
+     * @param listaBase Lista general de todas las aplicaciones
+     * @return Lista filtrada
+     */
+    private List<Aplicacion> obtenerAppsFiltradas(List<Aplicacion> listaBase) {
         String textoBusqueda = busqueda.getText().trim().toLowerCase();
-        Stream<Aplicacion> streamFiltrado = listaApps.stream()
-                .filter(a -> a.getNombre().toLowerCase().contains(textoBusqueda));
-        if (rbAZ.isSelected()) {
-            streamFiltrado = streamFiltrado.sorted(Comparator.comparing(a -> a.getNombre().toLowerCase()));
-        } else if (rbZA.isSelected()) {
-            streamFiltrado = streamFiltrado.sorted((a1, a2) -> a2.getNombre().compareToIgnoreCase(a1.getNombre()));
+        if (textoBusqueda.isEmpty()) {
+            return aplicarOrden(listaBase.stream()).toList();
         }
 
-        return streamFiltrado.toList();
+        //Aplicamos el doble filtro de aplicaciones y desarrolladores
+        Stream<Aplicacion> streamFiltrado = listaBase.stream()
+                .filter(app -> {
+                    //El nombre de la app contiene el texto buscado
+                    boolean coincideNombreApp = app.getNombre().toLowerCase().contains(textoBusqueda);
+
+                    //Si el nombre de su desarrollador contiene el texto buscado (Usa id desarrollador para obtener el nombre)
+                    boolean coincideDesarrollador = false;
+                    Desarrollador desarrollador = DesarrolladorDAO.findById(app.getIdDesarrollador());
+                    if (desarrollador != null) {
+                        coincideDesarrollador = desarrollador.getNombre().toLowerCase().contains(textoBusqueda);
+                    }
+                    return coincideNombreApp || coincideDesarrollador;
+                });
+
+        //Encadena los rb para ordenar
+        return aplicarOrden(streamFiltrado).toList();
+    }
+
+    /**
+     * Ordena por orden alfabetico
+     * @param stream La lista de aplicaciones que se va a ordenar
+     * @return La lista de aplicaciones ordenada según el RadioButton seleccionado
+     */
+    private Stream<Aplicacion> aplicarOrden(Stream<Aplicacion> stream) {
+        if (rbAZ != null && rbAZ.isSelected()) {
+            return stream.sorted(java.util.Comparator.comparing(a -> a.getNombre().toLowerCase()));
+        } else if (rbZA != null && rbZA.isSelected()) {
+            return stream.sorted((a1, a2) -> a2.getNombre().compareToIgnoreCase(a1.getNombre()));
+        }
+        return stream;
     }
 
     public void actualizarSaldo(){
@@ -220,19 +266,26 @@ public class TiendaPrincipalController implements Initializable {
         saldoAjustes.setText("Monedero: " + String.format("%.2f €", saldo));
     }
 
-    public void crearAplicacion(){
-        SceneManager.inyectarEscena(tiendaPrincipal, "CrearApp.fxml");
-        busqueda.setVisible(false);
-    }
-
     @FXML
     public void abrirVentanaSaldo(){
         SceneManager.abrirVentana("Saldo.fxml", "Recargar monedero", true);
     }
+    @FXML
+    public void abrirModificarContenido() {
+        SceneManager.abrirVentana("GestionarContenido.fxml", "Panel de Administración", true);
+    }
+    @FXML
+    public void abrirPerfil(){
+        SceneManager.abrirVentana("Perfil.fxml", "Perfil", false);
+    }
+    @FXML
+    public void abrirHistorialCompras(){
+        SceneManager.abrirVentana("HistorialCompras.fxml", "Historial de compras", true);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instancia = this;
-        botonesNav = Arrays.asList(botonApps, botonJuegos, botonInicio, botonCrear);
+        botonesNav = Arrays.asList(botonApps, botonJuegos, botonInicio, botonModificar);
         this.vistaActual="Inicio";
         actualizarEstadoMenu(botonInicio);
         panelAjustes.setMouseTransparent(false);
@@ -240,5 +293,8 @@ public class TiendaPrincipalController implements Initializable {
         botonAjustes.setMouseTransparent(false);
         botonAjustes.toFront();
         generarTienda();
+
+        //Para que el buscador funcione letra por letra
+        busqueda.textProperty().addListener((observable, oldValue, newValue) -> generarTienda());
     }
 }

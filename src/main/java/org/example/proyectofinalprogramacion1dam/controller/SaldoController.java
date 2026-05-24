@@ -8,25 +8,25 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.example.proyectofinalprogramacion1dam.model.Usuario;
 import org.example.proyectofinalprogramacion1dam.modelDAO.UsuarioDAO;
+import org.example.proyectofinalprogramacion1dam.utils.Alerta;
 import org.example.proyectofinalprogramacion1dam.utils.Sesion;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+//esta clase recarga el saldo del usuario
 public class SaldoController implements Initializable {
     @FXML private TextField saldoPersonalizado;
     @FXML private RadioButton rb5;
     @FXML private RadioButton rb10;
     @FXML private RadioButton rb20;
     @FXML private RadioButton rbPersonalizado;
-    @FXML private Button confirmar;
-    @FXML private Label seguro;
-    @FXML private HBox contenedorConfirmacion;
 
     @FXML
     private ToggleGroup grupoSaldo;
     private double cantidadPendiente = 0;
 
+    //Recarga el saldo del usuario segun la accion elegida, mostrando alerta para confirmar o
+    //si el dato introducido (en caso de personalizado) es incorrecto
     @FXML
     private void accionarConfirmar() {
         Toggle seleccion = grupoSaldo.getSelectedToggle();
@@ -39,49 +39,33 @@ public class SaldoController implements Initializable {
             cantidadPendiente = 20.0;
         } else if (seleccion == rbPersonalizado) {
             try {
-                double cantidad = Double.parseDouble(saldoPersonalizado.getText().trim());
-                if (cantidad > 0) {
-                    cantidadPendiente = cantidad;
-                } else {
-                    mostrarErrorEntrada();
-                    return; //Corta la ejecución si el número es negativo o cero
+                cantidadPendiente = Double.parseDouble(saldoPersonalizado.getText().trim());
+                if (cantidadPendiente <= 0) {
+                    Alerta.mostrarError("Inválido", "Cantidad incorrecta", "Por favor, introduce un importe mayor que 0€.");
+                    return;
                 }
             } catch (NumberFormatException e) {
-                mostrarErrorEntrada();
-                return; //Corta la ejecución si mete letras
+                Alerta.mostrarError("Error de formato", "Número no válido", "Por favor, introduce un número decimal");
+                return;
             }
         }
-        mostrarConfirmacion(true);
-    }
 
-    private void mostrarErrorEntrada() {
-        System.err.println("Entrada de saldo personalizada incorrecta.");
-        saldoPersonalizado.setText("");
-        saldoPersonalizado.setPromptText("Número inválido");
-    }
-    @FXML
-    private void confirmarSi() { //
         if (cantidadPendiente > 0) {
-            procesarRecarga(cantidadPendiente); //
+            boolean seguro = Alerta.mostrarConfirmacion(
+                    "Confirmar recarga",
+                    "¿Deseas añadir saldo a tu monedero?",
+                    "Se van a ingresar " + String.format("%.2f", cantidadPendiente) + "€ en tu cuenta."
+            );
+
+            if (seguro) {
+                procesarRecarga(cantidadPendiente);
+            } else {
+                cantidadPendiente = 0;
+            }
         }
     }
-    @FXML
-    private void confirmarNo() { //
-        cantidadPendiente = 0; //
-        mostrarConfirmacion(false); //
-    }
 
-    private void mostrarConfirmacion(boolean Confirmacion) { //
-        confirmar.setVisible(!Confirmacion); //
-        confirmar.setManaged(!Confirmacion); //
-
-        seguro.setVisible(Confirmacion); //
-        seguro.setManaged(Confirmacion); //
-
-        contenedorConfirmacion.setVisible(Confirmacion); //
-        contenedorConfirmacion.setManaged(Confirmacion); //
-    }
-
+    //Cambia el saldo en la BBDd y se actualiza en la tienda principal
     private void procesarRecarga(double cantidad) {
         Usuario user = Sesion.getUsuarioActual();
         user.setSaldo(user.getSaldo() + cantidad);
@@ -92,6 +76,7 @@ public class SaldoController implements Initializable {
         }
     }
 
+    //Pone por defecto 5€ como opcion selecionada
     @Override
     public void initialize(URL url, ResourceBundle rb){
         grupoSaldo.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
@@ -102,7 +87,6 @@ public class SaldoController implements Initializable {
                 saldoPersonalizado.setDisable(true);
                 saldoPersonalizado.clear();
             }
-            mostrarConfirmacion(false);
         });
     }
 }

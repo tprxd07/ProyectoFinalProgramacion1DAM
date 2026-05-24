@@ -2,21 +2,21 @@ package org.example.proyectofinalprogramacion1dam.model;
 
 public class Usuario {
     private int id;
-    private String nombreUsuario;
+    private String nombre;
     private String email;
     private String contrasenia;
     private double saldo;
 
     public Usuario() {}
-    public Usuario(int id, String nombreUsuario, String email, String contrasenia, double saldo) {
+    public Usuario(int id, String nombre, String email, String contrasenia, double saldo) {
         this.id = id;
-        this.nombreUsuario = nombreUsuario;
+        this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
         this.saldo = saldo;
     }
-    public Usuario(String nombreUsuario, String email, String contrasenia) {
-        this.nombreUsuario = nombreUsuario;
+    public Usuario(String nombre, String email, String contrasenia) {
+        this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
     }
@@ -29,12 +29,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getEmail() {
@@ -65,7 +65,7 @@ public class Usuario {
     public String   toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nombreUsuario='" + nombreUsuario + '\'' +
+                ", nombreUsuario='" + nombre + '\'' +
                 ", email='" + email + '\'' +
                 ", contrasenia='" + contrasenia + '\'' +
                 ", saldo=" + saldo +
