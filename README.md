@@ -5,13 +5,11 @@
 
 La aplicación gestiona un entorno transaccional cerrado donde conviven dos roles fundamentales tras el control de acceso y autenticación:
 
-### 👤 Rol: Cliente / Usuario Estándar
+### 👤 Usuario
 * **Exploración Avanzada:** El usuario accede a un catálogo visual dinámico donde puede examinar las aplicaciones, ver sus fichas de detalles, precios, número de descargas y la media de sus valoraciones cuantitativas.
 * **Filtrado Predictivo (API Stream & Lambdas):** Permite buscar software instantáneamente por conciencias en el nombre o mediante categorizaciones restrictivas (`Salud`, `Finanzas`, `MMO`, `Shooter`, `Indie`, `Ocio`, `Aventura`).
 * **Adquisición de Software Transaccional:** El usuario dispone de un monedero virtual con saldo. Al pulsar en *"Adquirir"*, el sistema valida los fondos, realiza el cobro atómico, asocia permanentemente la licencia a su biblioteca (`adquiere`), audita el pago histórico (`paga`) e incrementa el contador global de descargas.
 * **Feedback Social:** El cliente puede redactar reseñas con comentarios de texto y puntuaciones numéricas (`smallint`) asociadas de forma única a los productos adquiridos.
-
-### 👨‍💻 Rol: Administrador / Desarrollador
 * **Panel de Control CRUD:** Acceso prioritario a formularios avanzados encargados de dar de alta nuevas aplicaciones especializándolas en `Videojuego` (definiendo si es multijugador o no) o `Utilidad`.
 * **Mantenimiento Indexado:** Capacidad para insertar nuevas entidades de empresas desarrolladoras asociándoles su país de origen para indexar la procedencia del software distribuido.
 
