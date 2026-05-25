@@ -27,39 +27,49 @@ La estructura de directorios del proyecto estructurado con **Maven** se distribu
 ├── 📂 src
 │   ├── 📂 main
 │   │   ├── 📂 java
-│   │   │   └── 📂 com.playstore
-│   │   │       ├── 📄 Main.java                # Punto de entrada de la aplicación (Lanza JavaFX)
+│   │   │   └── 📂 org.example.proyectofinalprogramacion1dam
 │   │   │       │
-│   │   │       ├── 📂 model                    # Capa de Entidades Puras (POJOs)
-│   │   │       │   ├── 📄 Aplicacion.java      # Clase base / superclase abstracta (RA 7)
-│   │   │       │   ├── 📄 Videojuego.java      # Especialización / Herencia (Hijo 1)
-│   │   │       │   ├── 📄 Utilidades.java      # Especialización / Herencia (Hijo 2)
-│   │   │       │   ├── 📄 Usuario.java         # Datos de usuario, credenciales y saldo
-│   │   │       │   ├── 📄 Desarrollador.java    # Datos de empresas creadoras de software
-│   │   │       │   └── 📄 Resenia.java        # Entidad de opiniones e histórico cuantitativo
+│   │   │       ├── 📂 controller                   # Capa de Controladores (JavaFX Events)
+│   │   │       │   ├── 📄 LoginController.java
+│   │   │       │   └── 📄 TiendaPrincipalController.java
+│   │   │       ├── 📂 modelDAO                     # Capa de conexión a la base de datos
+│   │   │       │   ├── 📄 ConnectionBD.java
+│   │   │       │   ├── 📄 ConnectionPropierties.java
+│   │   │       │   └── 📄 XMLManager.java
 │   │   │       │
-│   │   │       ├── 📂 controller               # Capa de Controladores (JavaFX Events)
-│   │   │       │   ├── 📄 LoginController.java # Control de sesiones y autenticación local
-│   │   │       │   ├── 📄 TiendaController.java# Gestión del catálogo principal y Streams
-│   │   │       │   └── 📄 AdminController.java # Control y procesamiento del panel CRUD
+│   │   │       ├── 📂 model                        # Capa de Entidades Puras (POJOs)
+│   │   │       │   ├── 📄 Aplicacion.java
+│   │   │       │   ├── 📄 Usuario.java   
+│   │   │       │   ├── 📄 Desarrollador.java
+│   │   │       │   └── 📄 Resenia.java
 │   │   │       │
-│   │   │       └── 📂 dao                      # Capa de Persistencia e Integridad (JDBC)
-│   │   │           ├── 📄 ConexionBD.java      # Singleton para el ciclo de vida de la conexión
-│   │   │           ├── 📄 UsuarioDAO.java      # Operaciones CRUD e incremento de saldos
-│   │   │           ├── 📄 AplicacionDAO.java   # Lecturas optimizadas y Lazy Loading
-│   │   │           └── 📄 BibliotecaDAO.java   # Transacciones complejas (Commit/Rollback)
+│   │   │       ├──  📂 modelDAO                    # Capa de Persistencia e Integridad (JDBC)
+│   │   │       │    ├── 📄 ConexionBD.java
+│   │   │       │    ├── 📄 UsuarioDAO.java
+│   │   │       │    ├── 📄 AplicacionDAO.java
+│   │   │       │    └── 📄 BibliotecaDAO.java
+│   │   │       │
+│   │   │       ├── 📂 utils                        # Capa de clases con metodos auxiliares
+│   │   │       │   ├── 📄 Alerta.java
+│   │   │       │   ├── 📄 SceneManager.java   
+│   │   │       │   ├── 📄 Sesion.java
+│   │   │       │   └── 📄 Util.java
+│   │   │       │
+│   │   │       └── 📂 view                         # Capa con la aplicacion principal
+│   │   │       │   └── 📄 MainApp.java
+│   │   │       └──📄 Launcher.java
 │   │   │
-│   │   └── 📂 resources                        # Ficheros de recursos del sistema
-│   │       ├── 📂 fxml                         # Diseños de pantallas XML (JavaFX Scene Builder)
-│   │       │   ├── 📄 login.fxml
-│   │       │   ├── 📄 tienda_principal.fxml
-│   │       │   └── 📄 panel_admin.fxml
-│   │       ├── 📂 css                          # Hojas de estilo para la UI
-│   │       │   └── 📄 styles.css
-│   │       └── 📂 images                       # Almacenamiento local de assets e iconos
-│   │           └── 📄 placeholder.png
+│   │   └── 📂 resources                            # Ficheros de recursos del sistema
+│   │   │   └── 📂 org.example.proyectofinalprogramacion1dam                       
+|   |   |       ├── 📂 fxml                         # Diseños de pantallas XML (JavaFX Scene Builder)
+│   │   │       │    ├── 📄 login.fxml
+│   │   │       │    ├── 📄 tienda_principal.fxml
+│   │   │       ├── 📂 css                          # Hojas de estilo para la UI
+│   │   │       │   └── 📄 styles.css
+│   │   │       ├── 📂 sounds                       # Sonido de descargas
+│   │   │       │   └── 📄 descarga.mp3
+│   │   │       └── 📂 images                       # Almacenamiento local de assets e iconos
+│   │                └── 📄 placeholder.png
 │   │
-│   └── 📂 test                                 # Capa de pruebas unitarias locales
-│
 ├── 📄 pom.xml                                  # Configuración de dependencias de Maven
 └── 📄 README.md                                # Documentación principal del repositorio
