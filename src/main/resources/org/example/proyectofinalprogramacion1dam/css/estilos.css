@@ -176,7 +176,7 @@
     -fx-background-color: #252525;
     -fx-padding: 15px 20px;
     -fx-background-radius: 8px;
-    -fx-border-color: #333333;
+    -fx-border-color: darkGrey;
     -fx-border-width: 1px;
     -fx-alignment: CENTER_LEFT;
 }
@@ -227,6 +227,7 @@
     -fx-background-color: hoverGrey;
     -fx-border-color: blue;
 }
+//Hasta aqui las alertas
 
 .scroll-transparente {
     -fx-background-color: transparent;
@@ -261,7 +262,7 @@
 }
 
 .text-area-resenia {
-    -fx-control-inner-background: #333333;
+    -fx-control-inner-background: darkGrey;
     -fx-text-fill: textWhite;
     -fx-font-size: 14px;
 }
@@ -298,7 +299,7 @@
 }
 
 .boton-modificar-resenia {
-    -fx-background-color: #333333;
+    -fx-background-color: darkGrey;
     -fx-text-fill: blue;
     -fx-background-radius: 5px;
     -fx-cursor: hand;
@@ -307,6 +308,20 @@
 }
 .boton-modificar-resenia:hover {
     -fx-background-color: blue;
+    -fx-text-fill: #121212;
+    -fx-font-weight: bold;
+}
+
+.boton-eliminar-resenia {
+    -fx-background-color: darkGrey;
+    -fx-text-fill: yellow;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-padding: 4px 12px;
+}
+.boton-eliminar-resenia:hover {
+    -fx-background-color: yellow;
     -fx-text-fill: #121212;
     -fx-font-weight: bold;
 }

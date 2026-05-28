@@ -16,7 +16,6 @@ import org.example.proyectofinalprogramacion1dam.utils.Util;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public class DetalleAppController implements Initializable {
     private Aplicacion appActual;
     private Resenia reseniaPropia = null;
     private boolean modoEdicion = false;
-    private Usuario usuario = Sesion.getUsuarioActual();
+    private final Usuario usuario = Sesion.getUsuarioActual();
 
     /**
      * Carga toda la informacion de una app en el .fxml, recogiendo lso datos de la BBDD
@@ -80,9 +79,9 @@ public class DetalleAppController implements Initializable {
 
         if (vj != null) {
             if (vj.isMultijugador()) {
-                descCompleta = descCompleta + "\n\nMultijugador";
+                descCompleta = "Multijugador\n" + descCompleta;
             } else {
-                descCompleta = descCompleta + "\n\nUn jugador";
+                descCompleta = "Un jugador\n" + descCompleta;
             }
         }
 
@@ -203,6 +202,7 @@ public class DetalleAppController implements Initializable {
         for (int i = 0; i < puntuacionEstrellas.size(); i++) {
             ToggleButton estrella = puntuacionEstrellas.get(i);
             if (i < puntuacion) {
+                estrella.getStyleClass().add("texto-estrellas-puntuacion");
                 estrella.setSelected(true);
                 estrella.setText("★");
             } else {
@@ -215,7 +215,7 @@ public class DetalleAppController implements Initializable {
     /**
      * Carga todas las reseñas que tenga la aplicacion elegida. SI esta la del usuario, en vezd e poder crear una reseña,
      * el usuario podrá modificar su reseña ya creada.
-     * Además, se pueden ordenar las resñas por tiempo de envio o puntuacion
+     * Además, se pueden ordenar las reseñas por tiempo de envio o puntuacion
      */
     private void comprobarYRenderizarResenias() {
         contenedorResenia.getChildren().clear();
@@ -242,7 +242,7 @@ public class DetalleAppController implements Initializable {
                 comentario.setText(reseniaPropia.getComentario());
                 puntuacionSeleccionada = reseniaPropia.getPuntuacion();
                 actualizarEstrellasVisuales(puntuacionSeleccionada);
-                confirmarResenia.setText("Guardar Cambios");
+                confirmarResenia.setText("Guardar cambios");
                 tituloResenia.setText("Editando tu reseña");
             } else {
                 puntuacionSeleccionada = 5;
@@ -258,14 +258,13 @@ public class DetalleAppController implements Initializable {
 
         String filtro = cbFiltroResenias != null ? cbFiltroResenias.getValue() : "Más recientes";
 
-        if ("Mejor puntuación".equals(filtro)) {
-            restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getPuntuacion(), r1.getPuntuacion()));
-        } else if ("Menor puntuación".equals(filtro)) {
-            restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getPuntuacion(), r2.getPuntuacion()));
-        } else if ("Más antiguas".equals(filtro)) {
-            restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getId(), r2.getId()));
-        } else {
-            restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getId(), r1.getId()));
+        switch (filtro) {
+            case "Mejor puntuación" ->
+                    restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getPuntuacion(), r1.getPuntuacion()));
+            case "Menor puntuación" ->
+                    restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getPuntuacion(), r2.getPuntuacion()));
+            case "Más antiguas" -> restoOpiniones.sort((r1, r2) -> Integer.compare(r1.getId(), r2.getId()));
+            case null, default -> restoOpiniones.sort((r1, r2) -> Integer.compare(r2.getId(), r1.getId()));
         }
 
         for (Resenia r : restoOpiniones) {
@@ -309,8 +308,13 @@ public class DetalleAppController implements Initializable {
             nueva.setFechaResenia(LocalDateTime.now());
             ReseniaDAO.addResenia(nueva);
         }
-
         this.comentario.clear();
+        comprobarYRenderizarResenias();
+    }
+
+    @FXML
+    public void borrarResenia(){
+        ReseniaDAO.deleteResenia(reseniaPropia.getId());
         comprobarYRenderizarResenias();
     }
 

@@ -124,9 +124,9 @@ public class UsuarioDAO {
      * Crea un usuario segun los datos de registrar usuario y valida el Login en el mismo metodo
      * @param email Correo del usuario
      * @param pass Contraseña del usuario
-     * @return
+     * @return usuario con estos datos
      */
-    public static Usuario addUsuario(String email, String pass) {
+    public static Usuario login(String email, String pass) {
         Usuario usuario = null;
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_LOGIN)) {
             ps.setString(1, email);
@@ -145,6 +145,29 @@ public class UsuarioDAO {
             throw new RuntimeException(e);
         }
         return usuario;
+    }
+
+    /**
+     * Registra un nuevo usuario en la base de datos.
+     * Durante la refactorizacón del codigo, borré esta parte pensando que no seria necesaria, ya que addUsuario no tenia usos
+     * La información está sacada del commit del 18 de mayo
+     * @param user Objeto usuario con los datos de registro.
+     * @return true si se ha insertado correctamente.
+     */
+    public static boolean addUsuario(Usuario user) {
+        boolean added = false;
+        if (user != null && findByEmail(user.getEmail()) == null) {
+            try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_INSERT)) {
+                ps.setString(1, user.getNombre());
+                ps.setString(2, user.getEmail());
+                ps.setString(3, user.getContrasenia());
+                ps.executeUpdate();
+                added = true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return added;
     }
     /**
      * Actualiza los datos de un usuario existente.

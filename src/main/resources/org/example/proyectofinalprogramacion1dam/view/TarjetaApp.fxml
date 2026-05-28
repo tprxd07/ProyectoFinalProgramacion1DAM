@@ -4,16 +4,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDetected="#abrirDetalles" prefHeight="200.0" prefWidth="160.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.TarjetaAppController">
    <children>
-      <ImageView fx:id="portada" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="portada" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" />
+         </children>
          <VBox.margin>
-            <Insets top="20.0" />
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </VBox.margin>
-      </ImageView>
+      </Pane>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="128.0" VBox.vgrow="ALWAYS">
          <children>
             <Label fx:id="titulo" styleClass="texto" text="Label" HBox.hgrow="SOMETIMES" />

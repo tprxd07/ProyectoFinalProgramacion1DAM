@@ -293,7 +293,8 @@ public class TiendaPrincipalController implements Initializable {
         botonAjustes.setMouseTransparent(false);
         botonAjustes.toFront();
         generarTienda();
-
+        menuAjustes();
+        menuAjustes();
         //Para que el buscador funcione letra por letra
         busqueda.textProperty().addListener((observable, oldValue, newValue) -> generarTienda());
     }

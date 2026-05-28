@@ -133,12 +133,11 @@ public class ReseniaDAO {
     /**
      * Elimina una reseña de la base de datos
      * @param id Numero distintivo de la reseña
-     * @return reseña eliminada
      */
-    public static boolean deleteResenia(int id) {
+    public static void deleteResenia(int id) {
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_DELETE)) {
             ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

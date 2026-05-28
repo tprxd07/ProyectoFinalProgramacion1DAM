@@ -10,11 +10,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox prefHeight="700.0" prefWidth="900.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.DetalleAppController">
-   <VBox prefWidth="80.0">
+   <VBox prefWidth="80.0" HBox.hgrow="ALWAYS">
       <padding>
          <Insets left="20.0" top="20.0" />
       </padding>
@@ -28,14 +29,18 @@
       </Button>
    </VBox>
 
-   <ScrollPane fx:id="scrollPrincipal" hbarPolicy="NEVER" styleClass="scroll-transparente" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
+   <ScrollPane fx:id="scrollPrincipal" pannable="true" styleClass="scroll-transparente" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
       <content>
          <VBox maxWidth="700.0" prefWidth="700.0" spacing="25.0">
             <padding>
                <Insets top="30.0" />
             </padding>
             <HBox spacing="25.0">
-               <ImageView fx:id="portada" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
+               <Pane prefHeight="160.0" prefWidth="160.0">
+                  <children>
+                     <ImageView fx:id="portada" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" />
+                  </children>
+               </Pane>
                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                   <Label fx:id="nombre" styleClass="titulo-grande" text="Nombre de la App" />
                   <Label fx:id="desarrollador" styleClass="subtitulo" text="Desarrollador" />
@@ -86,5 +91,5 @@
       </content>
    </ScrollPane>
 
-   <Region prefWidth="80.0" />
+   <Region prefWidth="80.0" HBox.hgrow="ALWAYS" />
 </HBox>

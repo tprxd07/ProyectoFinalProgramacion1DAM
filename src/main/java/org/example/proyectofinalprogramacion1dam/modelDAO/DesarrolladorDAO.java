@@ -116,7 +116,8 @@ public class DesarrolladorDAO {
         try (PreparedStatement ps = ConnectionBD.getConnection().prepareStatement(SQL_UPDATE)) {
             ps.setString(1, des.getNombre());
             ps.setString(2, des.getPais());
-            ps.setInt(4, des.getId());
+            //Modificado el parameterIndex, antes tenía un 4 por que se me olvido borrarlo despues de quitar el atributo web Oficial
+            ps.setInt(3, des.getId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Error al actualizar desarrollador: " + e.getMessage());

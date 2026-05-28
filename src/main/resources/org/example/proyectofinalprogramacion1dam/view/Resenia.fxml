@@ -10,22 +10,23 @@
 
 <VBox prefWidth="660.0" spacing="8.0" styleClass="tarjeta-resenia" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyectofinalprogramacion1dam.controller.ReseniaController">
     <padding>
-        <Insets bottom="15.0" left="18.0" right="18.0" top="15.0"/>
+        <Insets bottom="15.0" left="18.0" right="18.0" top="15.0" />
     </padding>
 
     <HBox alignment="CENTER_LEFT" spacing="12.0">
         <Label fx:id="labelUsuario" styleClass="texto-resaltado" text="\@Usuario">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
 
-        <Label fx:id="puntuacion" styleClass="texto-estrellas-puntuacion" text="★★★☆☆"/>
+        <Label fx:id="puntuacion" styleClass="texto-estrellas-puntuacion" text="★★★☆☆" />
 
-        <Region HBox.hgrow="ALWAYS"/>
+        <Region HBox.hgrow="ALWAYS" />
+      <Button fx:id="botonEliminar" mnemonicParsing="false" onAction="#accionarEliminar" prefWidth="100.0" styleClass="boton-eliminar-resenia" text="Eliminar" visible="false" />
 
-        <Button fx:id="botonEditar" mnemonicParsing="false" onAction="#accionarEditar" styleClass="boton-modificar-resenia" text="Editar mi opinión" visible="false"/>
+        <Button fx:id="botonEditar" mnemonicParsing="false" onAction="#accionarEditar" prefWidth="100.0" styleClass="boton-modificar-resenia" text="Editar" visible="false" />
     </HBox>
 
-    <Label fx:id="comentario" lineSpacing="4.0" styleClass="texto" text="Este es el comentario o cuerpo de la reseña..." wrapText="true"/>
+    <Label fx:id="comentario" lineSpacing="4.0" styleClass="texto" text="Este es el comentario o cuerpo de la reseña..." wrapText="true" />
 </VBox>

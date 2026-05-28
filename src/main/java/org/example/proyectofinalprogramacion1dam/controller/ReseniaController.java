@@ -13,6 +13,7 @@ public class ReseniaController {
     @FXML private Label puntuacion;
     @FXML private Label comentario;
     @FXML private Button botonEditar;
+    @FXML private Button botonEliminar;
 
     private DetalleAppController padreController;
 
@@ -41,9 +42,13 @@ public class ReseniaController {
         if (esLaPropia) {
             botonEditar.setVisible(true);
             botonEditar.setManaged(true);
+            botonEliminar.setVisible(true);
+            botonEliminar.setManaged(true);
         } else {
             botonEditar.setVisible(false);
             botonEditar.setManaged(false);
+            botonEliminar.setVisible(false);
+            botonEliminar.setManaged(false);
         }
     }
 
@@ -54,6 +59,13 @@ public class ReseniaController {
     private void accionarEditar() {
         if (padreController != null) {
             padreController.activarModoEdicion();
+        }
+    }
+
+    @FXML
+    private void accionarEliminar(){
+        if (padreController != null){
+            padreController.borrarResenia();
         }
     }
 }

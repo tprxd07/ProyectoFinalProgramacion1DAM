@@ -57,7 +57,7 @@ public class LoginController implements Initializable {
         if (userExistente == null) {
             textoSesion.setText("El correo no tiene cuenta asignada");
         } else {
-            Usuario userLogueado = UsuarioDAO.addUsuario(email, pass);
+            Usuario userLogueado = UsuarioDAO.login(email, pass);
             if (userLogueado == null) {
                 textoSesion.setText("Contraseña incorrecta");
             } else {
@@ -94,6 +94,15 @@ public class LoginController implements Initializable {
             return;
         }else if (UsuarioDAO.findByUsername(user) != null) {
             textoSesion.setText("Ya existe este nombre de usuario");
+        }
+        //Durante la refactorizacón del codigo, borré esta parte sin darme cuenta
+        //La información está sacada del commit del 18 de mayo
+        Usuario nuevoUsuario = new Usuario(user, email, pass);
+        if (UsuarioDAO.addUsuario(nuevoUsuario)) {
+            textoSesion.setText("Bienvenido, " + nuevoUsuario.getNombre());
+            mostrarLogin();
+        } else {
+            textoSesion.setText("Error al conectar con la base de datos");
         }
     }
 

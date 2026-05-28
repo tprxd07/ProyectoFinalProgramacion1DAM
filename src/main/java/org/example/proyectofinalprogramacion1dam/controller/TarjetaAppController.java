@@ -39,7 +39,7 @@ public class TarjetaAppController {
         precio.getStyleClass().removeAll("label-gratis", "label-precio", "label-adquirido");
 
         if (user != null && BibliotecaDAO.usuarioTieneApp(user.getId(), app.getId())) {
-            precio.setText("Adqui...");
+            precio.setText("Adq...");
             precio.getStyleClass().add("label-adquirido");
         }
         else if (app.getPrecio() == 0) {
