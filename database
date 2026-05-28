@@ -1,0 +1,85 @@
+CREATE TABLE desarrollador (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    pais VARCHAR(50)
+);
+
+CREATE TABLE aplicacion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) UNSIGNED NOT NULL,
+    descargas INT UNSIGNED NOT NULL DEFAULT 0,
+    categoria ENUM('Salud', 'Finanzas', 'MMO', 'Shooter', 'Indie', 'Ocio', 'Aventura'),
+    idDesarrollador INT,
+    imagen VARCHAR(255) NOT NULL DEFAULT 'placeholder.png',
+    CONSTRAINT fk_app_desarrollador FOREIGN KEY (idDesarrollador) 
+        REFERENCES desarrollador (id) 
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombreUsuario VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    contrasenia VARCHAR(100) NOT NULL,
+    saldo DECIMAL(10,2) UNSIGNED DEFAULT 0.00
+);
+
+CREATE TABLE paga (
+    idApp INT,
+    idUsuario INT,
+    precioPagado DECIMAL(10,2) UNSIGNED,
+    fechaCompra DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (idApp, idUsuario),
+    CONSTRAINT fk_paga_app FOREIGN KEY (idApp) 
+        REFERENCES aplicacion (id) 
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_paga_usuario FOREIGN KEY (idUsuario) 
+        REFERENCES usuario (id) 
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE adquiere (
+    idApp INT,
+    idUsuario INT,
+    PRIMARY KEY (idApp, idUsuario),
+    CONSTRAINT fk_adquiere_app FOREIGN KEY (idApp) 
+        REFERENCES aplicacion (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT fk_adquiere_usuario FOREIGN KEY (idUsuario) 
+        REFERENCES usuario (id) 
+        ON DELETE CASCADE
+);
+
+CREATE TABLE resenia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    puntuacion SMALLINT NOT NULL,
+    comentario TEXT,
+    fechaResenia DATETIME DEFAULT CURRENT_TIMESTAMP,
+    idApp INT,
+    idUsuario INT,
+    CONSTRAINT fk_resenia_app FOREIGN KEY (idApp) 
+        REFERENCES aplicacion (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT fk_resenia_usuario FOREIGN KEY (idUsuario) 
+        REFERENCES usuario (id) 
+        ON DELETE CASCADE
+);
+
+CREATE TABLE utilidades (
+    idApp INT PRIMARY KEY,
+    imagen VARCHAR(255) DEFAULT 'placeholder.png',
+    CONSTRAINT fk_utilidades_app FOREIGN KEY (idApp) 
+        REFERENCES aplicacion (id) 
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE videojuego (
+    idApp INT PRIMARY KEY,
+    multijugador TINYINT(1) DEFAULT 0,
+    imagen VARCHAR(255) DEFAULT 'placeholder.png',
+    CONSTRAINT fk_videojuego_app FOREIGN KEY (idApp) 
+        REFERENCES aplicacion (id) 
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
